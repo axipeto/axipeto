@@ -47,8 +47,11 @@ tailwind.config = {
                 "mono":    ["JetBrains Mono", "ui-monospace", "monospace"]
             },
             fontSize: {
-                "display-xl":        ["80px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
-                "display-xl-mobile": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+                /* Display fluido: 48px fixos estouravam a viewport em telas estreitas —
+                   palavras longas em português ("transformar", "dispersão") não cabiam
+                   na coluna de 327px de um iPhone. O clamp acompanha a largura da tela. */
+                "display-xl":        ["clamp(3rem, 6vw, 4.5rem)",    { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+                "display-xl-mobile": ["clamp(1.75rem, 8vw, 3rem)",   { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
                 "headline-lg":        ["48px", { lineHeight: "1.2", fontWeight: "700" }],
                 "headline-lg-mobile": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
                 "headline-md":        ["32px", { lineHeight: "1.3", fontWeight: "600" }],

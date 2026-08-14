@@ -10,6 +10,17 @@ html { scroll-behavior: smooth; }
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
+/* Rede de segurança para os títulos: mesmo com o tamanho fluido, uma palavra
+   longa nunca deve vazar da tela. hyphens quebra na sílaba (o lang é pt-BR);
+   break-word só entra se nem hifenizar resolver. */
+h1, h2, h3 {
+    overflow-wrap: break-word;
+    hyphens: auto;
+    /* Distribui as linhas em comprimentos parecidos, em vez de encher cada
+       linha até o limite e deixar uma palavra órfã na última. */
+    text-wrap: balance;
+}
+
 .magnetic-btn { transition: transform .3s ease-out, box-shadow .3s ease-out; }
 .magnetic-btn:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(254, 183, 0, .28); }
 
