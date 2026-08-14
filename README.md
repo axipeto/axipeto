@@ -60,9 +60,26 @@ Definidos inline no `<script>` de configuração do Tailwind em `index.html`.
 | `ink` | `#1F1B13` | Texto principal |
 | `ink-muted` | `#7F7668` | Texto secundário |
 
+## Formulário de contato
+
+O formulário abre uma conversa no WhatsApp com os dados já preenchidos —
+não há backend envolvido.
+
+> ⚠️ **Antes de publicar:** troque a constante `WHATSAPP` no final do
+> `index.html` pelo número comercial. Formato: país + DDD + número, só dígitos.
+> Ex.: `(27) 99999-1234` → `'5527999991234'`.
+
+Campos obrigatórios: nome, e-mail, WhatsApp e empresa. Opcionais: cargo e
+"maior desafio". Validação e máscara de telefone são feitas no cliente.
+
+**Limitação conhecida:** como o envio final acontece dentro do WhatsApp,
+o site não registra quem preencheu e desistiu antes de apertar enviar.
+Para ter esse histórico, seria preciso espelhar o envio em um serviço
+tipo Formspree em paralelo.
+
 ## Pendências
 
-- [ ] Conectar o formulário de contato a um backend/serviço
+- [ ] Trocar o número placeholder em `WHATSAPP` no `index.html`
 - [ ] Acordeão da metodologia interativo (hoje o passo 02 está fixo aberto)
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [ ] Páginas de Privacidade e Termos (links no rodapé apontam para `#`)

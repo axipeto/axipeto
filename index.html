@@ -138,6 +138,59 @@
     }
     .orbital-ring { position: absolute; border: 1px dashed rgba(254, 183, 0, .3); border-radius: 50%; }
 
+    /* ---------- Campos do formulário ---------- */
+    .field input, .field textarea {
+        width: 100%;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid rgba(31, 27, 19, .10);
+        color: #1F1B13;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 16px;
+        padding: .75rem 0;
+        border-radius: 0;
+        transition: border-color .3s ease;
+    }
+    .field textarea { resize: vertical; min-height: 3.5rem; }
+    .field input:focus, .field textarea:focus {
+        outline: none;
+        box-shadow: none;
+        border-bottom-color: #FEB700;
+    }
+    .field label {
+        position: absolute;
+        left: 0;
+        top: .75rem;
+        color: #7F7668;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 16px;
+        pointer-events: none;
+        transition: all .3s ease;
+    }
+    /* Sobe o rótulo quando o campo tem foco ou conteúdo */
+    .field input:focus + label,
+    .field textarea:focus + label,
+    .field input:not(:placeholder-shown) + label,
+    .field textarea:not(:placeholder-shown) + label {
+        top: -1rem;
+        font-size: 12px;
+        color: #FEB700;
+    }
+    .field input:not(:placeholder-shown) + label,
+    .field textarea:not(:placeholder-shown) + label { color: #7F7668; }
+
+    /* Estado de erro */
+    .field.invalido input, .field.invalido textarea { border-bottom-color: #C0392B; }
+    .field.invalido label { color: #C0392B; }
+    .msg-erro {
+        margin-top: .375rem;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 11px;
+        line-height: 1.4;
+        color: #C0392B;
+        min-height: 1rem;
+    }
+
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #F6EDDC; }
     ::-webkit-scrollbar-thumb { background: #D8CBB4; border-radius: 4px; }
@@ -452,38 +505,89 @@
             Deixe a dispersão para trás. Fale com nossos especialistas e alinhe sua estratégia.
         </p>
 
-        <!-- TODO (fase 2): conectar o envio deste formulário -->
-        <form class="max-w-md mx-auto space-y-8 text-left">
-            <div class="relative">
-                <input type="text" id="name" name="name" placeholder=" " autocomplete="name"
-                       class="peer w-full bg-transparent border-0 border-b border-hairline text-ink font-body text-body-md
-                              focus:ring-0 focus:border-accent transition-colors py-3">
-                <label for="name"
-                       class="absolute left-0 top-3 text-ink-muted font-body text-body-md transition-all duration-300 pointer-events-none
-                              peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent
-                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">
-                    Nome completo
-                </label>
-            </div>
+        <form id="form-contato" novalidate class="max-w-xl mx-auto text-left">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
 
-            <div class="relative">
-                <input type="email" id="email" name="email" placeholder=" " autocomplete="email"
-                       class="peer w-full bg-transparent border-0 border-b border-hairline text-ink font-body text-body-md
-                              focus:ring-0 focus:border-accent transition-colors py-3">
-                <label for="email"
-                       class="absolute left-0 top-3 text-ink-muted font-body text-body-md transition-all duration-300 pointer-events-none
-                              peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent
-                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">
-                    E-mail corporativo
-                </label>
+                <!-- Nome -->
+                <div class="field relative sm:col-span-2">
+                    <input type="text" id="nome" name="nome" placeholder=" " autocomplete="name" required
+                           aria-describedby="erro-nome">
+                    <label for="nome">Nome completo</label>
+                    <p id="erro-nome" class="msg-erro" aria-live="polite"></p>
+                </div>
+
+                <!-- E-mail -->
+                <div class="field relative">
+                    <input type="email" id="email" name="email" placeholder=" " autocomplete="email" required
+                           aria-describedby="erro-email">
+                    <label for="email">E-mail corporativo</label>
+                    <p id="erro-email" class="msg-erro" aria-live="polite"></p>
+                </div>
+
+                <!-- Telefone -->
+                <div class="field relative">
+                    <input type="tel" id="telefone" name="telefone" placeholder=" " autocomplete="tel"
+                           inputmode="numeric" maxlength="16" required aria-describedby="erro-telefone">
+                    <label for="telefone">WhatsApp com DDD</label>
+                    <p id="erro-telefone" class="msg-erro" aria-live="polite"></p>
+                </div>
+
+                <!-- Empresa -->
+                <div class="field relative">
+                    <input type="text" id="empresa" name="empresa" placeholder=" " autocomplete="organization" required
+                           aria-describedby="erro-empresa">
+                    <label for="empresa">Empresa</label>
+                    <p id="erro-empresa" class="msg-erro" aria-live="polite"></p>
+                </div>
+
+                <!-- Cargo -->
+                <div class="field relative">
+                    <input type="text" id="cargo" name="cargo" placeholder=" " autocomplete="organization-title">
+                    <label for="cargo">Cargo <span class="text-ink-faint">(opcional)</span></label>
+                </div>
+
+                <!-- Desafio -->
+                <div class="field relative sm:col-span-2">
+                    <textarea id="desafio" name="desafio" placeholder=" " rows="3" maxlength="600"></textarea>
+                    <label for="desafio">Qual o seu maior desafio de marketing hoje? <span class="text-ink-faint">(opcional)</span></label>
+                </div>
+
             </div>
 
             <button type="submit"
-                    class="w-full mt-8 bg-accent text-ink font-body text-body-lg font-semibold py-4 rounded magnetic-btn relative overflow-hidden group">
+                    class="w-full mt-10 bg-accent text-ink font-body text-body-lg font-semibold py-4 rounded
+                           magnetic-btn relative overflow-hidden group flex items-center justify-center gap-3">
+                <span class="material-symbols-outlined relative z-10" aria-hidden="true">chat</span>
                 <span class="relative z-10">Solicitar Diagnóstico</span>
                 <div class="absolute inset-0 bg-surface-pure opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </button>
+
+            <p class="mt-4 text-center font-mono text-xs text-ink-faint">
+                Ao enviar, abrimos uma conversa no WhatsApp com seus dados já preenchidos.
+            </p>
         </form>
+
+        <!-- Confirmação (substitui o formulário após o envio) -->
+        <div id="confirmacao" hidden role="status" aria-live="polite"
+             class="max-w-xl mx-auto text-center border border-hairline bg-surface-pure rounded-lg p-10">
+            <span class="material-symbols-outlined text-accent text-6xl mb-4" aria-hidden="true">forum</span>
+            <h3 class="font-display text-headline-md text-ink mb-3">Abrimos o WhatsApp para você</h3>
+            <p class="font-body text-body-md text-ink-muted font-light mb-6">
+                É só apertar enviar na conversa que abriu. Se nada aconteceu, seu navegador
+                pode ter bloqueado a janela — use o botão abaixo.
+            </p>
+            <a id="link-fallback" href="#" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 bg-accent text-ink font-body font-semibold py-3 px-8 rounded-full magnetic-btn">
+                <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+                Abrir conversa
+            </a>
+            <p class="mt-6">
+                <button type="button" id="btn-voltar"
+                        class="font-mono text-label-mono text-ink-muted hover:text-ink underline underline-offset-4 transition-colors">
+                    Corrigir meus dados
+                </button>
+            </p>
+        </div>
     </div>
 </section>
 
@@ -509,6 +613,115 @@
 
 <script>
     document.getElementById('ano').textContent = new Date().getFullYear();
+</script>
+
+<script>
+/* =========================================================================
+   Formulário de contato → WhatsApp
+   -------------------------------------------------------------------------
+   TROQUE O NÚMERO ABAIXO pelo WhatsApp comercial da Axípeto.
+   Formato: código do país + DDD + número, só dígitos, sem espaços ou sinais.
+   Ex.: (27) 99999-1234  =>  '5527999991234'
+   ========================================================================= */
+const WHATSAPP = '5500000000000';
+
+(function () {
+    const form    = document.getElementById('form-contato');
+    const sucesso = document.getElementById('confirmacao');
+    const link    = document.getElementById('link-fallback');
+    const voltar  = document.getElementById('btn-voltar');
+    const tel     = document.getElementById('telefone');
+
+    /* ---------- Máscara de telefone brasileiro ---------- */
+    tel.addEventListener('input', () => {
+        const d = tel.value.replace(/\D/g, '').slice(0, 11);
+        let out = d;
+        if (d.length > 2)  out = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        if (d.length > 6)  {
+            const corte = d.length > 10 ? 7 : 6;   // celular (9 díg.) vs fixo (8 díg.)
+            out = '(' + d.slice(0, 2) + ') ' + d.slice(2, corte) + '-' + d.slice(corte);
+        }
+        tel.value = out;
+    });
+
+    /* ---------- Validação ---------- */
+    const regras = {
+        nome:     v => v.trim().length >= 3          || 'Digite seu nome completo.',
+        email:    v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || 'Digite um e-mail válido.',
+        telefone: v => v.replace(/\D/g, '').length >= 10 || 'Digite o DDD + número.',
+        empresa:  v => v.trim().length >= 2          || 'Informe o nome da empresa.'
+    };
+
+    function validarCampo(id) {
+        const campo = document.getElementById(id);
+        const box   = campo.closest('.field');
+        const erro  = document.getElementById('erro-' + id);
+        const r     = regras[id](campo.value);
+
+        if (r === true) {
+            box.classList.remove('invalido');
+            campo.removeAttribute('aria-invalid');
+            if (erro) erro.textContent = '';
+            return true;
+        }
+        box.classList.add('invalido');
+        campo.setAttribute('aria-invalid', 'true');
+        if (erro) erro.textContent = r;
+        return false;
+    }
+
+    /* Revalida ao sair do campo, e ao digitar se já estava com erro */
+    Object.keys(regras).forEach(id => {
+        const campo = document.getElementById(id);
+        campo.addEventListener('blur',  () => validarCampo(id));
+        campo.addEventListener('input', () => {
+            if (campo.closest('.field').classList.contains('invalido')) validarCampo(id);
+        });
+    });
+
+    /* ---------- Envio ---------- */
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const ids     = Object.keys(regras);
+        const validos = ids.map(validarCampo);           // valida todos, sem short-circuit
+        if (validos.includes(false)) {
+            const primeiro = document.getElementById(ids[validos.indexOf(false)]);
+            primeiro.focus();
+            primeiro.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            return;
+        }
+
+        const val = id => document.getElementById(id).value.trim();
+
+        const linhas = [
+            'Olá! Vim pelo site da Axípeto e quero solicitar um diagnóstico.',
+            '',
+            '*Nome:* '     + val('nome'),
+            '*E-mail:* '   + val('email'),
+            '*WhatsApp:* ' + val('telefone'),
+            '*Empresa:* '  + val('empresa')
+        ];
+        if (val('cargo'))   linhas.push('*Cargo:* ' + val('cargo'));
+        if (val('desafio')) linhas.push('', '*Maior desafio hoje:*', val('desafio'));
+
+        const url = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(linhas.join('\n'));
+
+        link.href = url;
+        window.open(url, '_blank', 'noopener');
+
+        form.hidden    = true;
+        sucesso.hidden = false;
+        sucesso.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    });
+
+    /* ---------- Voltar e corrigir ---------- */
+    voltar.addEventListener('click', () => {
+        sucesso.hidden = true;
+        form.hidden    = false;
+        document.getElementById('nome').focus();
+    });
+})();
 </script>
 
 </body>
