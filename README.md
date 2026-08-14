@@ -84,10 +84,9 @@ tipo Formspree em paralelo.
 
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [x] ~~Logos de clientes faltantes~~ — todos os 13 incluídos
-- [ ] **Preencher os dados cadastrais nas páginas legais** — os trechos marcados
-      com a classe `.pendente` (destaque amarelo) em `privacidade.html` e
-      `termos.html`: razão social, CNPJ, endereço, e-mail de contato,
-      encarregado/DPO, prazo de retenção e comarca do foro
+- [ ] **Últimas lacunas nas páginas legais** (marcadas com `.pendente`, destaque
+      amarelo): e-mail de contato, e-mail do encarregado/DPO e prazo de retenção
+      de contatos que não evoluem para negociação
 - [ ] **Revisão jurídica** de `privacidade.html` e `termos.html` antes de
       tratá-las como documentos oficiais
 - [ ] **Substituir por logos reais:** `rdamazio.png` é um mockup de papelaria e
@@ -96,6 +95,11 @@ tipo Formspree em paralelo.
 - [ ] Seções previstas no `DESIGN.md` ainda não implementadas: roda de serviços de 6 blocos,
       cases InPeace/UpCities com tabs, citação de abertura, canvas interativo no hero
 - [ ] Trocar o Tailwind CDN por build local antes de escalar
+
+## Empresa
+
+Site operado por **CONTAINER PUBLICIDADE LTDA** — CNPJ 22.867.935/0001-02,
+Rua Guanabara, nº 1490, Itapuã, Vila Velha/ES, que atua sob a marca Axípeto.
 
 ## Licença
 
