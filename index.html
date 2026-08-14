@@ -42,10 +42,9 @@
             extend: {
                 colors: {
                     /* Superfícies — tema claro "Kinetic Axis" */
-                    "surface":       "#FFF9EF",  /* Warm Paper / Bone      */
-                    "surface-alt":   "#F6EDDC",  /* Tonal Container        */
-                    "surface-clean": "#FAFAFA",  /* Off-white              */
-                    "surface-pure":  "#FFFFFF",
+                    "surface":       "#FFFFFF",  /* Fundo principal        */
+                    "surface-alt":   "#FAFAFA",  /* Seções de contraste    */
+                    "surface-pure":  "#FFFFFF",  /* Cards sobre surface-alt*/
 
                     /* Marca */
                     "accent":        "#FEB700",  /* Axípeto Amber Gold     */
@@ -139,7 +138,7 @@
     .marquee-container:hover .marquee-content { animation-play-state: paused; }
 
     .bento-card { transition: background-color .4s ease, transform .4s ease, border-color .4s ease, box-shadow .4s ease; }
-    .bento-card:hover { background-color: #FFFDF9; border-color: rgba(254, 183, 0, .35); transform: translateY(-5px); }
+    .bento-card:hover { background-color: #FAFAFA; border-color: rgba(254, 183, 0, .35); transform: translateY(-5px); }
     .bento-card:hover .icon-glow { color: #FEB700; }
 
     /* Órbita da seção "Sobre" */
@@ -148,6 +147,80 @@
         to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
     }
     .orbital-ring { position: absolute; border: 1px dashed rgba(254, 183, 0, .3); border-radius: 50%; }
+
+    /* ---------- Acordeão "Como é Feita a Entrega" ---------- */
+    .passo {
+        border: 1px solid rgba(31, 27, 19, .10);
+        border-left: 4px solid transparent;
+        border-radius: 1rem;
+        background: #FFFFFF;
+        overflow: hidden;
+        transition: border-color .3s ease, box-shadow .3s ease;
+    }
+    /* Só o fechado reage ao hover — senão o hover apagaria a borda âmbar do aberto */
+    .passo:not(.aberto):hover { border-color: rgba(31, 27, 19, .18); }
+    .passo.aberto {
+        border-color: rgba(31, 27, 19, .14);
+        border-left-color: #FEB700;   /* depois de border-color, senão é sobrescrito */
+        box-shadow: 0 6px 24px rgba(31, 27, 19, .05);
+    }
+
+    .passo-gatilho {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.5rem;
+        text-align: left;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    @media (min-width: 768px) { .passo-gatilho { padding: 2rem; } }
+    .passo-gatilho:focus-visible {
+        outline: 2px solid #FEB700;
+        outline-offset: -2px;
+        border-radius: .75rem;
+    }
+
+    .passo-numero {
+        font-size: 2.25rem;
+        font-weight: 800;
+        line-height: 1;
+        color: rgba(179, 170, 156, .55);
+        transition: color .3s ease;
+    }
+    @media (min-width: 768px) { .passo-numero { font-size: 3.75rem; } }
+    .passo-gatilho:hover .passo-numero,
+    .passo.aberto .passo-numero { color: #FEB700; }
+
+    .passo-icone {
+        color: #B3AA9C;
+        flex-shrink: 0;
+        transition: color .3s ease, transform .35s ease;
+    }
+    .passo-gatilho:hover .passo-icone { color: #FEB700; }
+    .passo.aberto .passo-icone { color: #FEB700; transform: rotate(180deg); }
+
+    /* grid-template-rows anima até a altura real do conteúdo */
+    .passo-painel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows .35s ease;
+    }
+    .passo.aberto .passo-painel { grid-template-rows: 1fr; }
+    .passo-painel > .passo-conteudo { overflow: hidden; }
+    .passo-conteudo > p {
+        padding: 0 1.5rem 1.5rem;
+        border-top: 1px solid rgba(31, 27, 19, .05);
+        padding-top: 1.25rem;
+        margin-top: 0;
+    }
+    @media (min-width: 768px) {
+        .passo-conteudo > p { padding: 1.25rem 2rem 2rem; }
+    }
 
     /* ---------- Campos do formulário ---------- */
     .field input, .field textarea {
@@ -203,8 +276,8 @@
     }
 
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #F6EDDC; }
-    ::-webkit-scrollbar-thumb { background: #D8CBB4; border-radius: 4px; }
+    ::-webkit-scrollbar-track { background: #F1F1F1; }
+    ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #FEB700; }
 
     /* Respeita quem prefere menos movimento */
@@ -290,7 +363,7 @@
             </div>
         </div>
 
-        <div class="relative rounded-xl overflow-hidden border border-hairline bg-surface-alt/50 flex items-center justify-center p-8 h-[60vh] lg:h-[80vh]">
+        <div class="relative rounded-xl overflow-hidden border border-hairline bg-surface-alt flex items-center justify-center p-8 h-[60vh] lg:h-[80vh]">
             <!-- Eixo central -->
             <div class="relative z-10 flex flex-col items-center">
                 <div class="absolute -inset-8 bg-accent/10 rounded-full blur-2xl animate-pulse"></div>
@@ -323,7 +396,7 @@
 </section>
 
 <!-- ============================ CASES / MARQUEE ============================ -->
-<section id="cases" class="py-16 border-y border-hairline bg-surface-alt/40 overflow-hidden">
+<section id="cases" class="py-16 border-y border-hairline bg-surface-alt overflow-hidden">
     <div class="text-center mb-10">
         <span class="font-mono text-label-mono text-ink-muted uppercase tracking-widest">Órbitas Alinhadas</span>
     </div>
@@ -390,7 +463,7 @@
                 </p>
             </div>
             <div class="mt-8">
-                <span class="inline-block px-4 py-1 rounded-full border border-hairline text-xs text-ink-muted uppercase tracking-wider font-mono bg-surface-alt/60">Estratégia Core</span>
+                <span class="inline-block px-4 py-1 rounded-full border border-hairline text-xs text-ink-muted uppercase tracking-wider font-mono bg-surface-alt">Estratégia Core</span>
             </div>
         </article>
 
@@ -437,7 +510,7 @@
 </section>
 
 <!-- ============================ METODOLOGIA ============================ -->
-<section id="metodologia" class="py-section-gap border-t border-hairline bg-surface-alt/40">
+<section id="metodologia" class="py-section-gap border-t border-hairline bg-surface-alt">
     <div class="max-w-screen-xl mx-auto px-margin-mobile md:px-margin-desktop">
 
         <div class="text-center mb-16">
@@ -447,68 +520,117 @@
             <p class="font-body text-body-lg text-ink-muted font-light">Nosso framework centrípeto em 5 estágios.</p>
         </div>
 
-        <div class="space-y-4">
+        <div class="space-y-4" id="acordeao">
+
             <!-- 01 -->
-            <div class="group border border-hairline rounded-lg bg-surface-pure hover:bg-surface transition-colors duration-300 overflow-hidden">
-                <div class="p-6 md:p-8 flex items-center justify-between">
-                    <div class="flex items-center gap-6">
-                        <span class="font-display text-4xl md:text-6xl font-extrabold text-ink-faint/50 group-hover:text-accent transition-colors duration-300">01</span>
-                        <h3 class="font-display text-xl md:text-headline-md text-ink">Diagnóstico</h3>
+            <div class="passo">
+                <h3>
+                    <button type="button" class="passo-gatilho" id="gatilho-01" aria-expanded="false" aria-controls="painel-01">
+                        <span class="flex items-center gap-6">
+                            <span class="passo-numero font-display">01</span>
+                            <span class="font-display text-xl md:text-headline-md text-ink">Diagnóstico</span>
+                        </span>
+                        <span class="material-symbols-outlined passo-icone" aria-hidden="true">add</span>
+                    </button>
+                </h3>
+                <div class="passo-painel" id="painel-01" role="region" aria-labelledby="gatilho-01">
+                    <div class="passo-conteudo">
+                        <p class="font-body text-body-md text-ink-muted font-light">
+                            Auditoria completa do seu cenário atual: canais ativos, histórico de investimento,
+                            qualidade dos dados, posicionamento e concorrência. Antes de propor qualquer rota,
+                            medimos exatamente onde está a dispersão — e quanto ela custa.
+                        </p>
                     </div>
-                    <span class="material-symbols-outlined text-ink-faint group-hover:text-accent transition-colors" aria-hidden="true">add</span>
                 </div>
             </div>
 
-            <!-- 02 (aberto) -->
-            <div class="group border-l-4 border-l-accent border border-hairline rounded-lg bg-surface-pure overflow-hidden">
-                <div class="p-6 md:p-8 flex items-center justify-between border-b border-hairline-soft">
-                    <div class="flex items-center gap-6">
-                        <span class="font-display text-4xl md:text-6xl font-extrabold text-accent">02</span>
-                        <h3 class="font-display text-xl md:text-headline-md text-ink">Plano</h3>
+            <!-- 02 -->
+            <div class="passo">
+                <h3>
+                    <button type="button" class="passo-gatilho" id="gatilho-02" aria-expanded="false" aria-controls="painel-02">
+                        <span class="flex items-center gap-6">
+                            <span class="passo-numero font-display">02</span>
+                            <span class="font-display text-xl md:text-headline-md text-ink">Plano</span>
+                        </span>
+                        <span class="material-symbols-outlined passo-icone" aria-hidden="true">add</span>
+                    </button>
+                </h3>
+                <div class="passo-painel" id="painel-02" role="region" aria-labelledby="gatilho-02">
+                    <div class="passo-conteudo">
+                        <p class="font-body text-body-md text-ink-muted font-light">
+                            Mapeamento estratégico de canais, definição de OKRs, orçamentação e criação do roadmap
+                            de execução. Desenhamos a órbita exata que a sua marca precisa percorrer para atingir
+                            a conversão.
+                        </p>
                     </div>
-                    <span class="material-symbols-outlined text-accent" aria-hidden="true">remove</span>
-                </div>
-                <div class="p-6 md:p-8 pt-4">
-                    <p class="font-body text-body-md text-ink-muted font-light">
-                        Mapeamento estratégico de canais, definição de OKRs, orçamentação e criação do roadmap
-                        de execução. Desenhamos a órbita exata que a sua marca precisa percorrer para atingir
-                        a conversão.
-                    </p>
                 </div>
             </div>
 
             <!-- 03 -->
-            <div class="group border border-hairline rounded-lg bg-surface-pure hover:bg-surface transition-colors duration-300 overflow-hidden">
-                <div class="p-6 md:p-8 flex items-center justify-between">
-                    <div class="flex items-center gap-6">
-                        <span class="font-display text-4xl md:text-6xl font-extrabold text-ink-faint/50 group-hover:text-accent transition-colors duration-300">03</span>
-                        <h3 class="font-display text-xl md:text-headline-md text-ink">Execução</h3>
+            <div class="passo">
+                <h3>
+                    <button type="button" class="passo-gatilho" id="gatilho-03" aria-expanded="false" aria-controls="painel-03">
+                        <span class="flex items-center gap-6">
+                            <span class="passo-numero font-display">03</span>
+                            <span class="font-display text-xl md:text-headline-md text-ink">Execução</span>
+                        </span>
+                        <span class="material-symbols-outlined passo-icone" aria-hidden="true">add</span>
+                    </button>
+                </h3>
+                <div class="passo-painel" id="painel-03" role="region" aria-labelledby="gatilho-03">
+                    <div class="passo-conteudo">
+                        <p class="font-body text-body-md text-ink-muted font-light">
+                            O plano vira produção: criação de campanhas, conteúdo, peças e automações,
+                            com rotina de veiculação e revisão. Nosso time opera junto ao seu, sem repassar
+                            para fora aquilo que é o núcleo da estratégia.
+                        </p>
                     </div>
-                    <span class="material-symbols-outlined text-ink-faint group-hover:text-accent transition-colors" aria-hidden="true">add</span>
                 </div>
             </div>
 
             <!-- 04 -->
-            <div class="group border border-hairline rounded-lg bg-surface-pure hover:bg-surface transition-colors duration-300 overflow-hidden">
-                <div class="p-6 md:p-8 flex items-center justify-between">
-                    <div class="flex items-center gap-6">
-                        <span class="font-display text-4xl md:text-6xl font-extrabold text-ink-faint/50 group-hover:text-accent transition-colors duration-300">04</span>
-                        <h3 class="font-display text-xl md:text-headline-md text-ink">Acompanhamento</h3>
+            <div class="passo">
+                <h3>
+                    <button type="button" class="passo-gatilho" id="gatilho-04" aria-expanded="false" aria-controls="painel-04">
+                        <span class="flex items-center gap-6">
+                            <span class="passo-numero font-display">04</span>
+                            <span class="font-display text-xl md:text-headline-md text-ink">Acompanhamento</span>
+                        </span>
+                        <span class="material-symbols-outlined passo-icone" aria-hidden="true">add</span>
+                    </button>
+                </h3>
+                <div class="passo-painel" id="painel-04" role="region" aria-labelledby="gatilho-04">
+                    <div class="passo-conteudo">
+                        <p class="font-body text-body-md text-ink-muted font-light">
+                            Rituais fixos de leitura de resultado, com painéis de indicadores conectados aos OKRs
+                            definidos no plano. Você enxerga o que cada canal devolve — não apenas o que ele consome.
+                        </p>
                     </div>
-                    <span class="material-symbols-outlined text-ink-faint group-hover:text-accent transition-colors" aria-hidden="true">add</span>
                 </div>
             </div>
 
             <!-- 05 -->
-            <div class="group border border-hairline rounded-lg bg-surface-pure hover:bg-surface transition-colors duration-300 overflow-hidden">
-                <div class="p-6 md:p-8 flex items-center justify-between">
-                    <div class="flex items-center gap-6">
-                        <span class="font-display text-4xl md:text-6xl font-extrabold text-ink-faint/50 group-hover:text-accent transition-colors duration-300">05</span>
-                        <h3 class="font-display text-xl md:text-headline-md text-ink">Evolução</h3>
+            <div class="passo">
+                <h3>
+                    <button type="button" class="passo-gatilho" id="gatilho-05" aria-expanded="false" aria-controls="painel-05">
+                        <span class="flex items-center gap-6">
+                            <span class="passo-numero font-display">05</span>
+                            <span class="font-display text-xl md:text-headline-md text-ink">Evolução</span>
+                        </span>
+                        <span class="material-symbols-outlined passo-icone" aria-hidden="true">add</span>
+                    </button>
+                </h3>
+                <div class="passo-painel" id="painel-05" role="region" aria-labelledby="gatilho-05">
+                    <div class="passo-conteudo">
+                        <p class="font-body text-body-md text-ink-muted font-light">
+                            Cada ciclo alimenta o próximo: o que provou retorno recebe mais peso, o que dispersou
+                            é cortado. A órbita se ajusta continuamente, aproximando a operação do eixo em vez
+                            de espalhá-la em novas frentes.
+                        </p>
                     </div>
-                    <span class="material-symbols-outlined text-ink-faint group-hover:text-accent transition-colors" aria-hidden="true">add</span>
                 </div>
             </div>
+
         </div>
 
     </div>
@@ -615,7 +737,7 @@
 </main>
 
 <!-- ============================ FOOTER ============================ -->
-<footer class="bg-surface-alt/50 border-t border-hairline w-full px-margin-mobile md:px-margin-desktop py-stack-lg
+<footer class="bg-surface-alt border-t border-hairline w-full px-margin-mobile md:px-margin-desktop py-stack-lg
                flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
     <img src="assets/img/brand/lockup-dark.png" alt="Axípeto" width="982" height="687"
          class="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity">
@@ -634,6 +756,31 @@
 
 <script>
     document.getElementById('ano').textContent = new Date().getFullYear();
+</script>
+
+<script>
+/* Acordeão da metodologia — cada passo abre e fecha de forma independente */
+(function () {
+    const passos = document.querySelectorAll('#acordeao .passo');
+
+    function alternar(passo, abrir) {
+        const gatilho = passo.querySelector('.passo-gatilho');
+        const icone   = passo.querySelector('.passo-icone');
+
+        passo.classList.toggle('aberto', abrir);
+        gatilho.setAttribute('aria-expanded', String(abrir));
+        icone.textContent = abrir ? 'remove' : 'add';
+    }
+
+    passos.forEach(passo => {
+        passo.querySelector('.passo-gatilho').addEventListener('click', () => {
+            alternar(passo, !passo.classList.contains('aberto'));
+        });
+    });
+
+    /* Começa com o primeiro passo aberto, para a seção não nascer vazia */
+    if (passos.length) alternar(passos[0], true);
+})();
 </script>
 
 <script>

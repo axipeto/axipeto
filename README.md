@@ -53,8 +53,8 @@ Definidos inline no `<script>` de configuração do Tailwind em `index.html`.
 
 | Token | Valor | Uso |
 |---|---|---|
-| `surface` | `#FFF9EF` | Fundo principal (Warm Paper) |
-| `surface-alt` | `#F6EDDC` | Containers tonais |
+| `surface` | `#FFFFFF` | Fundo principal |
+| `surface-alt` | `#FAFAFA` | Seções de contraste (cases, metodologia, rodapé) |
 | `accent` | `#FEB700` | Amber Gold da marca |
 | `spark` | `#00D7FE` | Destaque ciano |
 | `ink` | `#1F1B13` | Texto principal |
@@ -80,7 +80,6 @@ tipo Formspree em paralelo.
 ## Pendências
 
 - [ ] Trocar o número placeholder em `WHATSAPP` no `index.html`
-- [ ] Acordeão da metodologia interativo (hoje o passo 02 está fixo aberto)
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [ ] Páginas de Privacidade e Termos (links no rodapé apontam para `#`)
 - [ ] URLs reais de LinkedIn e Instagram
