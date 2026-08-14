@@ -131,6 +131,9 @@
     .logo-cliente:hover { opacity: 1; }
     /* Selva veio em JPG com fundo branco — multiply funde o branco na superfície */
     .logo-multiply { mix-blend-mode: multiply; }
+    /* Arquivos originais em branco/cinza-claro: invisíveis sobre fundo branco.
+       brightness(0) leva qualquer cor a preto preservando a transparência. */
+    .logo-escurecer { filter: brightness(0); }
     @keyframes marquee {
         0%   { transform: translateX(0); }
         100% { transform: translateX(-50%); }
@@ -405,10 +408,10 @@
         <div class="marquee-content flex gap-16 items-center">
             <!-- Conjunto 1 -->
             <img src="assets/img/clients/rdamazio.png"       alt="R. Damazio"             class="logo-cliente h-12">
-            <img src="assets/img/clients/neshamah.png"       alt="Neshamah"               class="logo-cliente h-8">
-            <img src="assets/img/clients/mvp-homes.png"      alt="MVP Homes"              class="logo-cliente h-12">
-            <img src="assets/img/clients/hco.png"            alt="HCO"                    class="logo-cliente h-12">
-            <img src="assets/img/clients/harmonia-facil.png" alt="Harmonia Fácil"         class="logo-cliente h-12">
+            <img src="assets/img/clients/neshamah.png"       alt="Neshamah"               class="logo-cliente logo-escurecer h-8">
+            <img src="assets/img/clients/mvp-homes.png"      alt="MVP Homes"              class="logo-cliente logo-escurecer h-12">
+            <img src="assets/img/clients/hco.png"            alt="HCO"                    class="logo-cliente logo-escurecer h-12">
+            <img src="assets/img/clients/harmonia-facil.png" alt="Harmonia Fácil"         class="logo-cliente logo-escurecer h-12">
             <img src="assets/img/clients/grupo-formar.png"   alt="Grupo Formar"           class="logo-cliente h-10">
             <img src="assets/img/clients/editora-formar.png" alt="Editora Formar"         class="logo-cliente h-10">
             <img src="assets/img/clients/inpeace.png"        alt="InPeace"                class="logo-cliente h-10">
@@ -420,10 +423,10 @@
 
             <!-- Conjunto 2 (duplicado — o loop desloca -50%) -->
             <img src="assets/img/clients/rdamazio.png"       alt="" aria-hidden="true" class="logo-cliente h-12">
-            <img src="assets/img/clients/neshamah.png"       alt="" aria-hidden="true" class="logo-cliente h-8">
-            <img src="assets/img/clients/mvp-homes.png"      alt="" aria-hidden="true" class="logo-cliente h-12">
-            <img src="assets/img/clients/hco.png"            alt="" aria-hidden="true" class="logo-cliente h-12">
-            <img src="assets/img/clients/harmonia-facil.png" alt="" aria-hidden="true" class="logo-cliente h-12">
+            <img src="assets/img/clients/neshamah.png"       alt="" aria-hidden="true" class="logo-cliente logo-escurecer h-8">
+            <img src="assets/img/clients/mvp-homes.png"      alt="" aria-hidden="true" class="logo-cliente logo-escurecer h-12">
+            <img src="assets/img/clients/hco.png"            alt="" aria-hidden="true" class="logo-cliente logo-escurecer h-12">
+            <img src="assets/img/clients/harmonia-facil.png" alt="" aria-hidden="true" class="logo-cliente logo-escurecer h-12">
             <img src="assets/img/clients/grupo-formar.png"   alt="" aria-hidden="true" class="logo-cliente h-10">
             <img src="assets/img/clients/editora-formar.png" alt="" aria-hidden="true" class="logo-cliente h-10">
             <img src="assets/img/clients/inpeace.png"        alt="" aria-hidden="true" class="logo-cliente h-10">
@@ -791,7 +794,7 @@
    Formato: código do país + DDD + número, só dígitos, sem espaços ou sinais.
    Ex.: (27) 99999-1234  =>  '5527999991234'
    ========================================================================= */
-const WHATSAPP = '5500000000000';
+const WHATSAPP = '5527998244746';
 
 (function () {
     const form    = document.getElementById('form-contato');

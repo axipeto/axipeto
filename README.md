@@ -65,10 +65,6 @@ Definidos inline no `<script>` de configuração do Tailwind em `index.html`.
 O formulário abre uma conversa no WhatsApp com os dados já preenchidos —
 não há backend envolvido.
 
-> ⚠️ **Antes de publicar:** troque a constante `WHATSAPP` no final do
-> `index.html` pelo número comercial. Formato: país + DDD + número, só dígitos.
-> Ex.: `(27) 99999-1234` → `'5527999991234'`.
-
 Campos obrigatórios: nome, e-mail, WhatsApp e empresa. Opcionais: cargo e
 "maior desafio". Validação e máscara de telefone são feitas no cliente.
 
@@ -79,11 +75,13 @@ tipo Formspree em paralelo.
 
 ## Pendências
 
-- [ ] Trocar o número placeholder em `WHATSAPP` no `index.html`
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [ ] Páginas de Privacidade e Termos (links no rodapé apontam para `#`)
 - [ ] URLs reais de LinkedIn e Instagram
 - [x] ~~Logos de clientes faltantes~~ — todos os 13 incluídos
+- [ ] **Substituir por logos reais:** `rdamazio.png` é um mockup de papelaria e
+      `docevida.png` é um mockup de cartão de visita — nenhum dos dois é um
+      arquivo de logo. Pedir os originais em PNG com fundo transparente
 - [ ] Seções previstas no `DESIGN.md` ainda não implementadas: roda de serviços de 6 blocos,
       cases InPeace/UpCities com tabs, citação de abertura, canvas interativo no hero
 - [ ] Trocar o Tailwind CDN por build local antes de escalar
