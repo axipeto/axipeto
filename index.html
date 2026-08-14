@@ -120,7 +120,18 @@
         -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
                 mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
     }
-    .marquee-content { display: flex; animation: marquee 32s linear infinite; }
+    .marquee-content { display: flex; animation: marquee 55s linear infinite; }
+
+    .logo-cliente {
+        width: auto;
+        object-fit: contain;
+        flex-shrink: 0;
+        opacity: .55;
+        transition: opacity .3s ease;
+    }
+    .logo-cliente:hover { opacity: 1; }
+    /* Selva veio em JPG com fundo branco — multiply funde o branco na superfície */
+    .logo-multiply { mix-blend-mode: multiply; }
     @keyframes marquee {
         0%   { transform: translateX(0); }
         100% { transform: translateX(-50%); }
@@ -320,24 +331,34 @@
     <div class="marquee-container w-full max-w-screen-2xl mx-auto px-margin-mobile md:px-margin-desktop">
         <div class="marquee-content flex gap-16 items-center">
             <!-- Conjunto 1 -->
-            <img src="assets/img/clients/rdamazio.png"       alt="R. Damazio"     class="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/neshamah.png"       alt="Neshamah"       class="h-8  w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/mvp-homes.png"      alt="MVP Homes"      class="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/hco.png"            alt="HCO"            class="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/harmonia-facil.png" alt="Harmonia Fácil" class="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/grupo-formar.png"   alt="Grupo Formar"   class="h-14 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/inpeace.png"        alt="InPeace"        class="h-10 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <img src="assets/img/clients/docevida.png"       alt="Doce Vida"      class="h-14 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <img src="assets/img/clients/rdamazio.png"       alt="R. Damazio"             class="logo-cliente h-12">
+            <img src="assets/img/clients/neshamah.png"       alt="Neshamah"               class="logo-cliente h-8">
+            <img src="assets/img/clients/mvp-homes.png"      alt="MVP Homes"              class="logo-cliente h-12">
+            <img src="assets/img/clients/hco.png"            alt="HCO"                    class="logo-cliente h-12">
+            <img src="assets/img/clients/harmonia-facil.png" alt="Harmonia Fácil"         class="logo-cliente h-12">
+            <img src="assets/img/clients/grupo-formar.png"   alt="Grupo Formar"           class="logo-cliente h-10">
+            <img src="assets/img/clients/editora-formar.png" alt="Editora Formar"         class="logo-cliente h-10">
+            <img src="assets/img/clients/inpeace.png"        alt="InPeace"                class="logo-cliente h-10">
+            <img src="assets/img/clients/docevida.png"       alt="Doce Vida"              class="logo-cliente h-14">
+            <img src="assets/img/clients/selva.jpg"          alt="Selva"                  class="logo-cliente logo-multiply h-8">
+            <img src="assets/img/clients/kaimbe.png"         alt="Instituto Kaimbe"       class="logo-cliente h-10">
+            <img src="assets/img/clients/mar-producoes.png"  alt="Mar Produções Gráficas" class="logo-cliente h-10">
+            <img src="assets/img/clients/carvalho.png"       alt="Carvalho Distribuições" class="logo-cliente h-14">
 
-            <!-- Conjunto 2 (duplicado para o loop infinito) -->
-            <img src="assets/img/clients/rdamazio.png"       alt="" aria-hidden="true" class="h-12 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/neshamah.png"       alt="" aria-hidden="true" class="h-8  w-auto object-contain opacity-60">
-            <img src="assets/img/clients/mvp-homes.png"      alt="" aria-hidden="true" class="h-12 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/hco.png"            alt="" aria-hidden="true" class="h-12 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/harmonia-facil.png" alt="" aria-hidden="true" class="h-12 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/grupo-formar.png"   alt="" aria-hidden="true" class="h-14 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/inpeace.png"        alt="" aria-hidden="true" class="h-10 w-auto object-contain opacity-60">
-            <img src="assets/img/clients/docevida.png"       alt="" aria-hidden="true" class="h-14 w-auto object-contain opacity-60">
+            <!-- Conjunto 2 (duplicado — o loop desloca -50%) -->
+            <img src="assets/img/clients/rdamazio.png"       alt="" aria-hidden="true" class="logo-cliente h-12">
+            <img src="assets/img/clients/neshamah.png"       alt="" aria-hidden="true" class="logo-cliente h-8">
+            <img src="assets/img/clients/mvp-homes.png"      alt="" aria-hidden="true" class="logo-cliente h-12">
+            <img src="assets/img/clients/hco.png"            alt="" aria-hidden="true" class="logo-cliente h-12">
+            <img src="assets/img/clients/harmonia-facil.png" alt="" aria-hidden="true" class="logo-cliente h-12">
+            <img src="assets/img/clients/grupo-formar.png"   alt="" aria-hidden="true" class="logo-cliente h-10">
+            <img src="assets/img/clients/editora-formar.png" alt="" aria-hidden="true" class="logo-cliente h-10">
+            <img src="assets/img/clients/inpeace.png"        alt="" aria-hidden="true" class="logo-cliente h-10">
+            <img src="assets/img/clients/docevida.png"       alt="" aria-hidden="true" class="logo-cliente h-14">
+            <img src="assets/img/clients/selva.jpg"          alt="" aria-hidden="true" class="logo-cliente logo-multiply h-8">
+            <img src="assets/img/clients/kaimbe.png"         alt="" aria-hidden="true" class="logo-cliente h-10">
+            <img src="assets/img/clients/mar-producoes.png"  alt="" aria-hidden="true" class="logo-cliente h-10">
+            <img src="assets/img/clients/carvalho.png"       alt="" aria-hidden="true" class="logo-cliente h-14">
         </div>
     </div>
 </section>

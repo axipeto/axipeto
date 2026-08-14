@@ -84,7 +84,7 @@ tipo Formspree em paralelo.
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [ ] Páginas de Privacidade e Termos (links no rodapé apontam para `#`)
 - [ ] URLs reais de LinkedIn e Instagram
-- [ ] Logos de clientes faltantes: Selva, Kaimbe, Mar Produções, Carvalho Distribuições, Editora Formar
+- [x] ~~Logos de clientes faltantes~~ — todos os 13 incluídos
 - [ ] Seções previstas no `DESIGN.md` ainda não implementadas: roda de serviços de 6 blocos,
       cases InPeace/UpCities com tabs, citação de abertura, canvas interativo no hero
 - [ ] Trocar o Tailwind CDN por build local antes de escalar
