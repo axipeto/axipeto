@@ -1,0 +1,29 @@
+/* Estilos compartilhados por todas as páginas da Axípeto.
+   Estilos específicos de uma página ficam no <style> dela. */
+
+html { scroll-behavior: smooth; }
+
+/* Compensa a navbar fixa ao navegar por âncoras */
+[id] { scroll-margin-top: 6rem; }
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.magnetic-btn { transition: transform .3s ease-out, box-shadow .3s ease-out; }
+.magnetic-btn:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(254, 183, 0, .28); }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #F1F1F1; }
+::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #FEB700; }
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

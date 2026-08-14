@@ -1,0 +1,94 @@
+/* Estilos das páginas de texto corrido (Privacidade e Termos) */
+
+.legal { max-width: 46rem; }
+
+.legal h2 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1F1B13;
+    margin-top: 3.5rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 7rem;
+}
+.legal h2:first-of-type { margin-top: 0; }
+
+.legal h3 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1F1B13;
+    margin-top: 2rem;
+    margin-bottom: .625rem;
+}
+
+.legal p,
+.legal li {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: #4A4438;
+}
+.legal p { margin-bottom: 1rem; }
+
+.legal ul,
+.legal ol { margin: 0 0 1.25rem 1.25rem; }
+.legal ul { list-style: disc; }
+.legal ol { list-style: decimal; }
+.legal li { margin-bottom: .5rem; padding-left: .25rem; }
+
+.legal strong { font-weight: 600; color: #1F1B13; }
+
+.legal a {
+    color: #1F1B13;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: #FEB700;
+    text-decoration-thickness: 2px;
+}
+.legal a:hover { color: #927236; }
+
+/* Trecho que depende de dado que a Axípeto ainda precisa preencher */
+.pendente {
+    background: #FFF4D6;
+    border-bottom: 2px solid #FEB700;
+    padding: .0625rem .375rem;
+    border-radius: .25rem;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: .8125em;
+    color: #6B4E00;
+    white-space: nowrap;
+}
+
+/* Aviso no topo das páginas */
+.aviso {
+    border: 1px solid rgba(254, 183, 0, .45);
+    background: #FFFBF0;
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+    display: flex;
+    gap: .875rem;
+    align-items: flex-start;
+}
+.aviso p {
+    margin: 0;
+    font-size: .9375rem;
+    line-height: 1.6;
+    color: #6B4E00;
+}
+.aviso .material-symbols-outlined { color: #B98A00; flex-shrink: 0; }
+
+/* Índice de seções */
+.indice {
+    border: 1px solid rgba(31, 27, 19, .10);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: #FAFAFA;
+    margin-bottom: 3.5rem;
+}
+.indice ol { margin: 0 0 0 1.125rem; }
+.indice li { margin-bottom: .375rem; font-size: .9375rem; }
+.indice a { text-decoration: none; color: #4A4438; }
+.indice a:hover { color: #1F1B13; text-decoration: underline; text-underline-offset: 3px; }

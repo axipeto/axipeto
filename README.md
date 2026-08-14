@@ -18,9 +18,16 @@ em um único centro.
 
 ```
 .
-├── index.html                  # Página única
+├── index.html                  # Página principal
+├── privacidade.html            # Política de Privacidade (LGPD)
+├── termos.html                 # Termos de Uso
 ├── DESIGN.md                   # Design system "Kinetic Axis" (tokens + arquitetura)
 ├── assets/
+│   ├── css/
+│   │   ├── base.css            # Estilos compartilhados pelas 3 páginas
+│   │   └── legal.css           # Tipografia das páginas de texto legal
+│   ├── js/
+│   │   └── tailwind-config.js  # Design tokens (compartilhado)
 │   └── img/
 │       ├── hero-rings.jpg      # Background do hero (círculos concêntricos)
 │       ├── brand/              # Logo, wordmark, marca, favicons
@@ -49,7 +56,7 @@ Para domínio próprio, crie um arquivo `CNAME` na raiz com o domínio
 
 ## Design tokens
 
-Definidos inline no `<script>` de configuração do Tailwind em `index.html`.
+Definidos em `assets/js/tailwind-config.js`, carregado pelas três páginas.
 
 | Token | Valor | Uso |
 |---|---|---|
@@ -76,9 +83,13 @@ tipo Formspree em paralelo.
 ## Pendências
 
 - [ ] Menu mobile (a navegação some abaixo de `md`)
-- [ ] Páginas de Privacidade e Termos (links no rodapé apontam para `#`)
-- [ ] URLs reais de LinkedIn e Instagram
 - [x] ~~Logos de clientes faltantes~~ — todos os 13 incluídos
+- [ ] **Preencher os dados cadastrais nas páginas legais** — os trechos marcados
+      com a classe `.pendente` (destaque amarelo) em `privacidade.html` e
+      `termos.html`: razão social, CNPJ, endereço, e-mail de contato,
+      encarregado/DPO, prazo de retenção e comarca do foro
+- [ ] **Revisão jurídica** de `privacidade.html` e `termos.html` antes de
+      tratá-las como documentos oficiais
 - [ ] **Substituir por logos reais:** `rdamazio.png` é um mockup de papelaria e
       `docevida.png` é um mockup de cartão de visita — nenhum dos dois é um
       arquivo de logo. Pedir os originais em PNG com fundo transparente
