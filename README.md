@@ -84,11 +84,8 @@ tipo Formspree em paralelo.
 
 - [ ] Menu mobile (a navegação some abaixo de `md`)
 - [x] ~~Logos de clientes faltantes~~ — todos os 13 incluídos
-- [ ] **Últimas lacunas nas páginas legais** (marcadas com `.pendente`, destaque
-      amarelo): e-mail de contato, e-mail do encarregado/DPO e prazo de retenção
-      de contatos que não evoluem para negociação
-- [ ] **Revisão jurídica** de `privacidade.html` e `termos.html` antes de
-      tratá-las como documentos oficiais
+- [ ] **Revisão jurídica** de `privacidade.html` e `termos.html` — os textos
+      estão completos, mas ainda não passaram por advogado
 - [ ] **Substituir por logos reais:** `rdamazio.png` é um mockup de papelaria e
       `docevida.png` é um mockup de cartão de visita — nenhum dos dois é um
       arquivo de logo. Pedir os originais em PNG com fundo transparente
