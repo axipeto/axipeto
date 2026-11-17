@@ -1,6 +1,6 @@
 # Diagnóstico — integração com n8n e Google Sheets
 
-Página: `https://axipeto.com.br/diagnostico/` (arquivo `diagnostico/index.html`).
+Página: `https://axipeto.com/diagnostico/` (arquivo `diagnostico/index.html`).
 
 A página envia um `POST` para o webhook do n8n com o corpo em
 `application/x-www-form-urlencoded`. Esse formato foi escolhido de propósito:
@@ -21,7 +21,7 @@ No topo do `<script>` de `diagnostico/index.html`:
 | `WEBHOOK_URL` | `https://axipeto.app.n8n.cloud/webhook/f6ab1951-ad65-47b9-bc89-7544ab512eaf` | **Production URL** do nó Webhook. Só responde com o workflow ativo. |
 | `AGENDA_URL` | `https://calendar.app.google/Hqn1kFbBmeCuauAE8` | Link do Google Agenda. Vazio = botão "agendar" escondido. |
 
-**Modo teste:** abra `https://axipeto.com.br/diagnostico/?teste=1` — o envio vai
+**Modo teste:** abra `https://axipeto.com/diagnostico/?teste=1` — o envio vai
 para `/webhook-test/...` (a Test URL), que só responde enquanto o editor do n8n
 está em *Listen for test event*.
 | `WHATSAPP` | `5527998244746` | Usado só se o envio falhar. |
@@ -79,7 +79,7 @@ O workflow importado usa o mesmo path do webhook que você já criou
 **Webhook — formulário**
 - HTTP Method `POST` · Path `f6ab1951-ad65-47b9-bc89-7544ab512eaf`
 - Respond: `Using 'Respond to Webhook' Node`
-- Options → **Allowed Origins (CORS)**: `https://axipeto.com.br`
+- Options → **Allowed Origins (CORS)**: `https://axipeto.com,https://www.axipeto.com`
   (se for testar a página em outro endereço, acrescente-o separado por vírgula)
 
 **Normaliza lead** (Code, JavaScript)
@@ -109,7 +109,7 @@ O workflow importado usa o mesmo path do webhook que você já criou
 
 ### Passo 4 — Testar
 1. Clique em **Test workflow** (ou *Listen for test event* no nó Webhook).
-2. Abra `https://axipeto.com.br/diagnostico/?teste=1` e preencha — ou, enquanto
+2. Abra `https://axipeto.com/diagnostico/?teste=1` e preencha — ou, enquanto
    a página não estiver no ar, dispare:
 
 ```bash

@@ -55,7 +55,7 @@ Depois abra <http://localhost:8000>.
 4. O site fica disponível em `https://<usuario>.github.io/<repo>/`
 
 Para domínio próprio, crie um arquivo `CNAME` na raiz com o domínio
-(ex.: `axipeto.com.br`) e configure o DNS apontando para o GitHub Pages.
+(ex.: `axipeto.com`) e configure o DNS apontando para o GitHub Pages.
 
 ## Design tokens
 
