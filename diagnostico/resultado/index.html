@@ -187,12 +187,8 @@
             <section id="rede" class="py-16 border-t border-hairline">
                 <p class="font-mono text-label-mono text-bronze uppercase mb-3 revelar">02 · <span data-campo="rede_social"></span></p>
                 <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-6 revelar">Sua vitrine nas redes</h2>
-                <div id="aviso-rede" hidden class="flex gap-3 items-start rounded-xl border border-dashed border-accent/60 bg-accent/5 p-5 mb-8 revelar">
-                    <span class="material-symbols-outlined text-accent" aria-hidden="true">visibility_off</span>
-                    <p class="text-sm text-ink-muted leading-relaxed">Não conseguimos abrir o perfil de forma automática. O que está abaixo vem do que aparece publicamente nas buscas — na conversa, olhamos o perfil juntos.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="rounded-xl bg-surface-alt border border-hairline p-6 revelar">
+                <div id="grade-rede" class="grid md:grid-cols-2 gap-6">
+                    <div id="card-obs-rede" class="rounded-xl bg-surface-alt border border-hairline p-6 revelar">
                         <p class="flex items-center gap-2 font-semibold text-ink mb-4"><span class="material-symbols-outlined text-accent" aria-hidden="true">visibility</span>Observações</p>
                         <ul class="space-y-3" data-lista="rede_observacoes" data-icone="fiber_manual_record"></ul>
                     </div>
@@ -308,14 +304,23 @@ const DEMO = {
             const icone = ul.dataset.icone;
             lista(d[ul.dataset.lista]).forEach(item => {
                 const li = el('li', 'flex gap-3 items-start text-ink leading-relaxed');
-                const ic = el('span', 'material-symbols-outlined text-base mt-0.5 ' + (icone === 'arrow_forward' ? 'text-bronze' : 'text-accent'), icone);
+                /* Marcadores desenhados em CSS (e não com a fonte de ícones), para que
+                   o nome do ícone não apareça quando alguém copia o texto */
+                const ic = icone === 'arrow_forward'
+                    ? el('span', 'shrink-0 text-bronze font-semibold', '→')
+                    : el('span', 'shrink-0 w-2 h-2 mt-2.5 rounded-full bg-accent');
                 ic.setAttribute('aria-hidden', 'true');
                 li.append(ic, el('span', '', item));
                 ul.append(li);
             });
         });
 
-        document.getElementById('aviso-rede').hidden = !!d.rede_acessada;
+        /* Se o perfil não pôde ser aberto, mostra só as melhorias da rede */
+        if (!d.rede_acessada || !lista(d.rede_observacoes).length) {
+            document.getElementById('card-obs-rede').hidden = true;
+            document.getElementById('grade-rede').classList.remove('md:grid-cols-2');
+        }
+        if (!lista(d.rede_melhorias).length) document.getElementById('rede').hidden = true;
 
         const conc = document.getElementById('concorrentes');
         lista(d.concorrentes).forEach((c, i) => {

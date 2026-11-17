@@ -227,9 +227,10 @@
         <li><a href="#cases"       class="font-body text-body-md uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-300">Cases</a></li>
         <li><a href="#metodologia" class="font-body text-body-md uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-300">Metodologia</a></li>
     </ul>
-    <a href="#contato"
-       class="inline-flex items-center justify-center bg-accent text-ink font-body font-semibold py-2 px-6 rounded-full magnetic-btn transition-colors duration-300">
-        Contato
+    <a href="https://calendar.app.google/Hqn1kFbBmeCuauAE8" target="_blank" rel="noopener"
+       class="inline-flex items-center justify-center gap-2 bg-accent text-ink font-body font-semibold py-2 px-4 sm:px-6 rounded-full magnetic-btn transition-colors duration-300 whitespace-nowrap">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">calendar_month</span>
+        Agendar reunião
     </a>
 </nav>
 
@@ -250,6 +251,13 @@
             Centralizamos sua estratégia digital com força centrípeta. Alinhamento perfeito entre marca,
             performance e dados.
         </p>
+
+        <a href="diagnostico/"
+           class="inline-flex items-center gap-3 bg-accent text-ink font-body font-semibold text-body-lg py-4 px-8 rounded-full magnetic-btn mb-4">
+            Fazer diagnóstico gratuito
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+        <p class="font-mono text-xs text-ink-muted mb-12">7 perguntas · 2 minutos · sem custo</p>
 
         <a href="#sobre" aria-label="Ir para a seção Sobre"
            class="group flex items-center justify-center w-16 h-16 rounded-full border border-hairline
@@ -553,6 +561,45 @@
     </div>
 </section>
 
+<!-- ============================ CHAMADA PARA O DIAGNÓSTICO ============================ -->
+<section id="diagnostico" class="relative overflow-hidden bg-ink text-surface py-24 px-margin-mobile md:px-margin-desktop">
+    <div class="absolute -right-40 -top-40 w-[560px] h-[560px] rounded-full border border-dashed border-accent/30 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute -right-10 -top-10 w-[300px] h-[300px] rounded-full border border-dashed border-spark/30 pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative max-w-6xl mx-auto grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
+        <div>
+            <p class="font-mono text-label-mono text-accent uppercase mb-6">Diagnóstico gratuito</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg tracking-tight mb-6">
+                Como sua marca aparece para quem procura por ela?
+            </h2>
+            <p class="font-body text-body-lg text-[#CFC8BC] font-light mb-10 max-w-xl">
+                Responda 7 perguntas rápidas. Analisamos sua presença na busca, suas redes e seus concorrentes,
+                e você recebe um diagnóstico com os próximos passos.
+            </p>
+            <a href="diagnostico/"
+               class="inline-flex items-center gap-3 bg-accent text-ink font-semibold text-body-lg py-4 px-10 rounded-full magnetic-btn">
+                Quero meu diagnóstico
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
+        </div>
+
+        <ul class="grid gap-4">
+            <li class="flex gap-4 items-start rounded-lg border border-white/10 bg-white/5 p-5">
+                <span class="material-symbols-outlined text-accent" aria-hidden="true">travel_explore</span>
+                <span><strong class="block font-semibold">Presença na busca</strong><span class="text-sm text-[#CFC8BC]">Uma nota de 0 a 10 para a facilidade de encontrar sua empresa.</span></span>
+            </li>
+            <li class="flex gap-4 items-start rounded-lg border border-white/10 bg-white/5 p-5">
+                <span class="material-symbols-outlined text-accent" aria-hidden="true">photo_library</span>
+                <span><strong class="block font-semibold">Redes sociais</strong><span class="text-sm text-[#CFC8BC]">O que funciona e o que pode melhorar na sua vitrine.</span></span>
+            </li>
+            <li class="flex gap-4 items-start rounded-lg border border-white/10 bg-white/5 p-5">
+                <span class="material-symbols-outlined text-accent" aria-hidden="true">compare_arrows</span>
+                <span><strong class="block font-semibold">Concorrência e próximos passos</strong><span class="text-sm text-[#CFC8BC]">Como você se posiciona e 3 ações recomendadas.</span></span>
+            </li>
+        </ul>
+    </div>
+</section>
+
 <!-- ============================ CONTATO ============================ -->
 <section id="contato" class="py-section-gap relative overflow-hidden">
     <div class="absolute inset-0 bg-accent opacity-[0.04] pointer-events-none"></div>
@@ -622,9 +669,6 @@
                 <div class="absolute inset-0 bg-surface-pure opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </button>
 
-            <p class="mt-4 text-center font-mono text-xs text-ink-faint">
-                Ao enviar, abrimos uma conversa no WhatsApp com seus dados já preenchidos.
-            </p>
         </form>
 
         <!-- Confirmação (substitui o formulário após o envio) -->
