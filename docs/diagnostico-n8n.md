@@ -102,7 +102,7 @@ O workflow importado usa o mesmo path do webhook que você já criou
 
 **Me avisa por e-mail** (Gmail → Send)
 - **Credential:** sua conta Gmail.
-- **To:** troque `COLOQUE_SEU_EMAIL_AQUI` pelo seu e-mail.
+- **To:** troque `SEU_EMAIL` pelo seu e-mail.
 - O e-mail traz os dados do lead, a origem (UTMs) e um link direto para o
   WhatsApp da pessoa. Prefere receber no WhatsApp ou Slack? Troque este nó;
   o texto pode ser o mesmo.
