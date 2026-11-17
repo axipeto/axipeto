@@ -18,8 +18,12 @@ No topo do `<script>` de `diagnostico/index.html`:
 
 | Constante | Valor atual | O que fazer |
 |---|---|---|
-| `WEBHOOK_URL` | `https://axipeto.app.n8n.cloud/webhook/diagnostico` | Deve ser a **Production URL** do nó Webhook. Se o path no n8n for outro, troque aqui. |
-| `AGENDA_URL` | vazio | Cole o link de agendamento. Vazio = botão "agendar" escondido. |
+| `WEBHOOK_URL` | `https://axipeto.app.n8n.cloud/webhook/f6ab1951-ad65-47b9-bc89-7544ab512eaf` | **Production URL** do nó Webhook. Só responde com o workflow ativo. |
+| `AGENDA_URL` | `https://calendar.app.google/Hqn1kFbBmeCuauAE8` | Link do Google Agenda. Vazio = botão "agendar" escondido. |
+
+**Modo teste:** abra `https://axipeto.com.br/diagnostico/?teste=1` — o envio vai
+para `/webhook-test/...` (a Test URL), que só responde enquanto o editor do n8n
+está em *Listen for test event*.
 | `WHATSAPP` | `5527998244746` | Usado só se o envio falhar. |
 | `UTM_DIAS` | `30` | Janela de atribuição das UTMs. |
 
@@ -27,7 +31,7 @@ No topo do `<script>` de `diagnostico/index.html`:
 
 ## 2. Planilha (Google Sheets)
 
-Crie uma planilha **Leads — Diagnóstico** com uma aba `leads` e esta linha 1
+Planilha: [Leads - Daignostico](https://docs.google.com/spreadsheets/d/1N7h1ILuZfJ6q3jGKAlRTDWynXdVM_JCNRMii_zjzfOI/edit) — aba `Página1`. Linha 1
 (exatamente estes nomes; o n8n mapeia pelos cabeçalhos):
 
 ```
@@ -50,7 +54,7 @@ lead_id	enviado_em	status	empresa	segmento	cidade	rede_social	rede_social_link	s
 
 ### Webhook
 - **HTTP Method:** `POST`
-- **Path:** `diagnostico`
+- **Path:** `f6ab1951-ad65-47b9-bc89-7544ab512eaf` (o que o n8n gerou)
 - **Respond:** `Using 'Respond to Webhook' Node`
 - **Options → Allowed Origins (CORS):** `https://axipeto.com.br`
   (durante testes locais, acrescente a origem local ou use `*`).
@@ -67,7 +71,7 @@ Confirme isso no primeiro teste, olhando a saída do nó.
 
 ### Google Sheets — Append Row
 - Credencial: sua conta Google.
-- Documento: **Leads — Diagnóstico**, aba `leads`.
+- Documento: **Leads - Daignostico**, aba `Página1`.
 - Mapping: **Map Automatically** (os nomes dos campos já batem com os cabeçalhos).
 
 ### Notificação
@@ -90,11 +94,10 @@ Sheets falhar, a página mostra o erro e oferece o WhatsApp — o lead não se p
 
 ### Testando
 1. Abra o workflow no editor e clique em **Listen for test event**.
-2. Na página, troque temporariamente `/webhook/` por `/webhook-test/` na
-   `WEBHOOK_URL`, ou dispare com curl:
+2. Abra a página com `?teste=1` no fim do endereço, ou dispare com curl:
 
 ```bash
-curl -X POST https://axipeto.app.n8n.cloud/webhook-test/diagnostico -d "empresa=Teste&nome=Fulano&email=teste@exemplo.com&consentimento=sim&utm_source=meta"
+curl -X POST https://axipeto.app.n8n.cloud/webhook-test/f6ab1951-ad65-47b9-bc89-7544ab512eaf -d "empresa=Teste&nome=Fulano&email=teste@exemplo.com&consentimento=sim&utm_source=meta"
 ```
 
 3. Quando funcionar, **ative** o workflow (a Production URL só responde com ele ativo).

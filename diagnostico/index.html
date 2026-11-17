@@ -432,13 +432,15 @@
    CONFIGURAÇÃO — ajuste aqui
    ========================================================================= */
 const CONFIG = {
-    /* URL de PRODUÇÃO do nó Webhook no n8n (método POST, path "diagnostico").
-       Para testar com o workflow aberto no editor, troque /webhook/ por /webhook-test/. */
-    WEBHOOK_URL: 'https://axipeto.app.n8n.cloud/webhook/diagnostico',
+    /* URL de PRODUÇÃO do nó Webhook no n8n (método POST).
+       Só responde com o workflow ATIVO. Para testar com o editor do n8n aberto em
+       "Listen for test event", abra a página com ?teste=1 no fim do endereço:
+       aí o envio vai para /webhook-test/ em vez de /webhook/. */
+    WEBHOOK_URL: 'https://axipeto.app.n8n.cloud/webhook/f6ab1951-ad65-47b9-bc89-7544ab512eaf',
 
-    /* Link de agendamento (Calendly, Google Agenda etc.).
-       Enquanto estiver vazio, o botão "agendar" não aparece na tela de sucesso. */
-    AGENDA_URL: '',
+    /* Link de agendamento (Google Agenda).
+       Se ficar vazio, o botão "agendar" não aparece na tela de sucesso. */
+    AGENDA_URL: 'https://calendar.app.google/Hqn1kFbBmeCuauAE8',
 
     /* WhatsApp comercial (mesmo da home) — usado só se o envio falhar */
     WHATSAPP: '5527998244746',
@@ -446,6 +448,11 @@ const CONFIG = {
     /* Por quantos dias a atribuição de UTM vale (last-touch dentro da janela) */
     UTM_DIAS: 30
 };
+
+/* Modo teste: ?teste=1 envia para a URL de teste do n8n */
+if (new URLSearchParams(location.search).get('teste') === '1') {
+    CONFIG.WEBHOOK_URL = CONFIG.WEBHOOK_URL.replace('/webhook/', '/webhook-test/');
+}
 
 document.getElementById('ano').textContent = new Date().getFullYear();
 
@@ -707,10 +714,7 @@ const Rastreio = (function () {
             document.getElementById('sucesso-email').textContent = dados.email;
             if (CONFIG.AGENDA_URL) {
                 const ag = document.getElementById('btn-agendar');
-                const u = new URL(CONFIG.AGENDA_URL);
-                u.searchParams.set('name', dados.nome);
-                u.searchParams.set('email', dados.email);
-                ag.href = u.toString();
+                ag.href = CONFIG.AGENDA_URL;
                 ag.hidden = false;
             }
             trocarTela('sucesso');
