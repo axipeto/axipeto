@@ -21,6 +21,8 @@ em um único centro.
 ├── index.html                  # Página principal
 ├── privacidade.html            # Política de Privacidade (LGPD)
 ├── termos.html                 # Termos de Uso
+├── diagnostico/index.html      # Formulário de diagnóstico em etapas (→ webhook n8n)
+├── docs/diagnostico-n8n.md     # Como ligar o diagnóstico ao n8n + Google Sheets
 ├── DESIGN.md                   # Design system "Kinetic Axis" (tokens + arquitetura)
 ├── assets/
 │   ├── css/
@@ -80,6 +82,12 @@ o site não registra quem preencheu e desistiu antes de apertar enviar.
 Para ter esse histórico, seria preciso espelhar o envio em um serviço
 tipo Formspree em paralelo.
 
+## Diagnóstico (`/diagnostico`)
+
+Formulário em 7 etapas para captação via anúncios. Envia as respostas, as UTMs
+e os IDs de clique (fbclid, gclid…) para um webhook do n8n, que grava no
+Google Sheets. Configuração e passo a passo em `docs/diagnostico-n8n.md`.
+
 ## Pendências
 
 - [ ] Menu mobile (a navegação some abaixo de `md`)
@@ -91,6 +99,8 @@ tipo Formspree em paralelo.
       arquivo de logo. Pedir os originais em PNG com fundo transparente
 - [ ] Seções previstas no `DESIGN.md` ainda não implementadas: roda de serviços de 6 blocos,
       cases InPeace/UpCities com tabs, citação de abertura, canvas interativo no hero
+- [ ] **Diagnóstico:** criar o workflow no n8n, preencher `AGENDA_URL` e
+      atualizar a Política de Privacidade (dados passam por n8n e por IA)
 - [ ] Trocar o Tailwind CDN por build local antes de escalar
 
 ## Empresa
