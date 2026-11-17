@@ -48,59 +48,87 @@ lead_id	enviado_em	status	empresa	segmento	cidade	rede_social	rede_social_link	s
 
 ## 3. Workflow n8n — Fase 2 (captação)
 
-```
-[Webhook] → [Set: normaliza] → [Google Sheets: Append row] → [Notificação] → [Respond to Webhook]
-```
-
-### Webhook
-- **HTTP Method:** `POST`
-- **Path:** `f6ab1951-ad65-47b9-bc89-7544ab512eaf` (o que o n8n gerou)
-- **Respond:** `Using 'Respond to Webhook' Node`
-- **Options → Allowed Origins (CORS):** `https://axipeto.com.br`
-  (durante testes locais, acrescente a origem local ou use `*`).
-  Sem isso o navegador pode bloquear a leitura da resposta e a página mostra
-  a tela de erro mesmo com o lead salvo.
-
-Os campos chegam em `{{$json.body.<campo>}}` — ex.: `{{$json.body.empresa}}`.
-Confirme isso no primeiro teste, olhando a saída do nó.
-
-### Set (Edit Fields)
-- Campo `status` = `novo`
-- Descartar a requisição se `{{$json.body.consentimento}}` for diferente de `sim`
-  (use um nó **IF** antes, se preferir).
-
-### Google Sheets — Append Row
-- Credencial: sua conta Google.
-- Documento: **Leads - Daignostico**, aba `Página1`.
-- Mapping: **Map Automatically** (os nomes dos campos já batem com os cabeçalhos).
-
-### Notificação
-WhatsApp, e-mail ou Slack — o que você usa. Sugestão de texto:
+O workflow pronto está em [`n8n/01-captacao-diagnostico.json`](../n8n/01-captacao-diagnostico.json).
 
 ```
-Novo lead de diagnóstico 🟡
-{{$json.body.empresa}} ({{$json.body.segmento}}, {{$json.body.cidade}})
-Investimento: {{$json.body.investimento}} · Objetivo: {{$json.body.objetivo}}
-Origem: {{$json.body.utm_source}} / {{$json.body.utm_campaign}} / {{$json.body.utm_content}}
-{{$json.body.nome}} · {{$json.body.telefone}} · {{$json.body.email}}
+[Webhook] → [Normaliza lead] → [Salva na planilha] → [Responde ao site] → [Me avisa por e-mail]
 ```
 
-### Respond to Webhook
-- Respond With: **JSON** → `{ "ok": true }`
-- Código 200.
+A resposta ao site sai **depois** de gravar na planilha: se o Sheets falhar, a
+página mostra o erro e oferece o WhatsApp, e o lead não se perde. O e-mail de
+aviso vem depois da resposta, então uma falha nele não afeta quem preencheu.
 
-**Importante:** responda só **depois** de gravar na planilha. Assim, se o
-Sheets falhar, a página mostra o erro e oferece o WhatsApp — o lead não se perde.
+> Escrevi o JSON a partir do formato de exportação do n8n que conheço, mas não
+> pude importá-lo num n8n de verdade daqui. Se algum nó vier com aviso ou
+> campo vazio, ajuste pela tela — a configuração esperada de cada nó está abaixo.
 
-### Testando
-1. Abra o workflow no editor e clique em **Listen for test event**.
-2. Abra a página com `?teste=1` no fim do endereço, ou dispare com curl:
+### Passo 1 — Liberar o caminho do webhook
+O workflow importado usa o mesmo path do webhook que você já criou
+(`f6ab1951-…`). Dois webhooks ativos não podem ter o mesmo path, então
+**apague ou desative** o workflow antigo antes (ou apague só o nó Webhook dele).
+
+### Passo 2 — Importar
+1. No n8n: **Workflows → Add workflow**.
+2. Menu **⋯** (canto superior direito) → **Import from File…** → escolha
+   `n8n/01-captacao-diagnostico.json`.
+   (Alternativa: abra o arquivo, copie todo o conteúdo e cole com Ctrl+V no
+   editor vazio.)
+
+### Passo 3 — Conferir cada nó
+
+**Webhook — formulário**
+- HTTP Method `POST` · Path `f6ab1951-ad65-47b9-bc89-7544ab512eaf`
+- Respond: `Using 'Respond to Webhook' Node`
+- Options → **Allowed Origins (CORS)**: `https://axipeto.com.br`
+  (se for testar a página em outro endereço, acrescente-o separado por vírgula)
+
+**Normaliza lead** (Code, JavaScript)
+- Recusa envios sem consentimento, sem e-mail válido ou sem empresa (gera erro →
+  a página mostra a tela de erro).
+- Devolve só as 36 colunas preenchidas pelo formulário, com `status = novo`.
+- Põe um apóstrofo antes de valores que começam com `= + - @`. Sem isso, o
+  Sheets transformaria `+5527999998888` em número (ou um texto malicioso em
+  fórmula). O apóstrofo não aparece na célula.
+
+**Salva na planilha** (Google Sheets → Append Row)
+- **Credential:** conecte sua conta Google (*Sign in with Google*).
+- **Document:** `Leads - Daignostico` · **Sheet:** `Página1`
+  (o arquivo vem com esses dois campos vazios de propósito — selecione na lista).
+- **Mapping Column Mode:** `Map Automatically`.
+- Options → **Cell Format:** `Let Google Sheets format` (USER_ENTERED).
+
+**Responde ao site** (Respond to Webhook)
+- Respond With `JSON` · Response Body `{"ok": true}`
+
+**Me avisa por e-mail** (Gmail → Send)
+- **Credential:** sua conta Gmail.
+- **To:** troque `COLOQUE_SEU_EMAIL_AQUI` pelo seu e-mail.
+- O e-mail traz os dados do lead, a origem (UTMs) e um link direto para o
+  WhatsApp da pessoa. Prefere receber no WhatsApp ou Slack? Troque este nó;
+  o texto pode ser o mesmo.
+
+### Passo 4 — Testar
+1. Clique em **Test workflow** (ou *Listen for test event* no nó Webhook).
+2. Abra `https://axipeto.com.br/diagnostico/?teste=1` e preencha — ou, enquanto
+   a página não estiver no ar, dispare:
 
 ```bash
-curl -X POST https://axipeto.app.n8n.cloud/webhook-test/f6ab1951-ad65-47b9-bc89-7544ab512eaf -d "empresa=Teste&nome=Fulano&email=teste@exemplo.com&consentimento=sim&utm_source=meta"
+curl -i -X POST https://axipeto.app.n8n.cloud/webhook-test/f6ab1951-ad65-47b9-bc89-7544ab512eaf -d "lead_id=teste-1&empresa=Teste&nome=Fulano&email=teste@exemplo.com&telefone_e164=%2B5527999998888&consentimento=sim&utm_source=meta"
 ```
 
-3. Quando funcionar, **ative** o workflow (a Production URL só responde com ele ativo).
+3. Confira: resposta `{"ok": true}`, linha nova na planilha (com o telefone
+   como texto), e-mail de aviso recebido. Apague a linha de teste.
+4. **Ative** o workflow (chave *Active* no topo). Só assim a Production URL,
+   que a página usa, passa a responder.
+
+### Se der errado
+| Sintoma | Causa provável |
+|---|---|
+| Página mostra erro, mas a linha aparece na planilha | CORS: confira *Allowed Origins* no Webhook |
+| curl devolve 404 "webhook not registered" | Workflow inativo (Production URL) ou editor não está escutando (Test URL) |
+| Erro "Lead recusado: …" na execução | Envio sem consentimento/e-mail/empresa — o filtro funcionou |
+| Colunas vazias na planilha | Cabeçalhos da linha 1 diferentes dos nomes dos campos |
+| Erro ao ativar: path em uso | O workflow antigo ainda tem o mesmo path (Passo 1) |
 
 ---
 

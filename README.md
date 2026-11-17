@@ -23,6 +23,7 @@ em um único centro.
 ├── termos.html                 # Termos de Uso
 ├── diagnostico/index.html      # Formulário de diagnóstico em etapas (→ webhook n8n)
 ├── docs/diagnostico-n8n.md     # Como ligar o diagnóstico ao n8n + Google Sheets
+├── n8n/                        # Workflows do n8n para importar
 ├── DESIGN.md                   # Design system "Kinetic Axis" (tokens + arquitetura)
 ├── assets/
 │   ├── css/
