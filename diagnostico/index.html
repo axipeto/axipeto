@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Diagnóstico gratuito — Axípeto</title>
+<meta name="description" content="Responda 7 perguntas rápidas e receba um diagnóstico de marketing da sua empresa: presença na busca, redes sociais, concorrência e próximos passos.">
+<meta name="author" content="Axípeto">
+<link rel="canonical" href="https://axipeto.com.br/diagnostico/">
+<meta name="theme-color" content="#FEB700">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Axípeto">
+<meta property="og:title" content="Diagnóstico gratuito de marketing — Axípeto">
+<meta property="og:description" content="7 perguntas, 2 minutos. Receba um diagnóstico da presença digital da sua empresa.">
+<meta property="og:url" content="https://axipeto.com.br/diagnostico/">
+<meta property="og:image" content="https://axipeto.com.br/assets/img/brand/favicon-512.png">
+
+<link rel="icon" type="image/png" sizes="512x512" href="../assets/img/brand/favicon-512.png">
+<link rel="apple-touch-icon" href="../assets/img/brand/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap">
+
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="../assets/js/tailwind-config.js"></script>
+<link rel="stylesheet" href="../assets/css/base.css">
+
+<style>
+    /* Classes como "flex" do Tailwind venceriam o atributo hidden */
+    [hidden] { display: none !important; }
+
+    /* ---------- Campos (mesmo padrão do formulário da home) ---------- */
+    .field input, .field textarea {
+        width: 100%;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid rgba(31, 27, 19, .10);
+        color: #1F1B13;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 18px;
+        padding: .75rem 0;
+        border-radius: 0;
+        transition: border-color .3s ease;
+    }
+    .field textarea { resize: vertical; min-height: 6rem; }
+    .field input:focus, .field textarea:focus {
+        outline: none; box-shadow: none; border-bottom-color: #FEB700;
+    }
+    .field label {
+        position: absolute; left: 0; top: .75rem;
+        color: #7F7668;
+        font-size: 18px;
+        pointer-events: none;
+        transition: all .3s ease;
+    }
+    .field input:focus + label,
+    .field textarea:focus + label,
+    .field input:not(:placeholder-shown) + label,
+    .field textarea:not(:placeholder-shown) + label {
+        top: -1rem; font-size: 12px; color: #FEB700;
+    }
+    .field input:not(:placeholder-shown) + label,
+    .field textarea:not(:placeholder-shown) + label { color: #7F7668; }
+
+    .invalido input, .invalido textarea { border-bottom-color: #C0392B !important; }
+    .invalido > label, .invalido .grupo-titulo { color: #C0392B !important; }
+    .msg-erro {
+        margin-top: .375rem;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 11px; line-height: 1.4;
+        color: #C0392B; min-height: 1rem;
+    }
+
+    /* ---------- Opções em "chips" ---------- */
+    .chip { position: relative; display: inline-flex; cursor: pointer; }
+    .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .chip span {
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .625rem 1.125rem;
+        border: 1px solid rgba(31, 27, 19, .12);
+        border-radius: 9999px;
+        font-size: 15px; color: #1F1B13; background: #fff;
+        transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+        user-select: none;
+    }
+    .chip:hover span { border-color: rgba(254, 183, 0, .6); }
+    .chip input:checked + span {
+        background: #FEB700; border-color: #FEB700; font-weight: 600;
+    }
+    .chip input:focus-visible + span { box-shadow: 0 0 0 3px rgba(0, 215, 254, .45); }
+
+    /* ---------- Etapas ---------- */
+    .etapa { animation: entrar .45s ease both; }
+    @keyframes entrar {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    .anel {
+        position: absolute; border-radius: 50%;
+        border: 1px dashed rgba(254, 183, 0, .28);
+        pointer-events: none;
+    }
+
+    .spinner {
+        width: 3.5rem; height: 3.5rem; border-radius: 50%;
+        border: 2px solid rgba(254, 183, 0, .2);
+        border-top-color: #FEB700;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+
+<body class="bg-surface text-ink font-body text-body-md overflow-x-hidden selection:bg-accent selection:text-ink min-h-screen flex flex-col">
+
+<!-- ============================ TOPO ============================ -->
+<nav aria-label="Topo"
+     class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-hairline
+            flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-md">
+    <a href="../" aria-label="Axípeto — página inicial" class="flex items-center">
+        <img src="../assets/img/brand/wordmark-dark.png" alt="Axípeto" width="982" height="322" class="h-8 w-auto object-contain">
+    </a>
+    <span id="contador" class="font-mono text-label-mono text-ink-muted" aria-live="polite"></span>
+</nav>
+
+<!-- Barra de progresso -->
+<div class="fixed left-0 w-full z-50 h-[3px] bg-hairline-soft" style="top: 4.05rem;" aria-hidden="true">
+    <div id="barra" class="h-full bg-accent transition-[width] duration-500 ease-out" style="width: 0%"></div>
+</div>
+
+<!-- ============================ CONTEÚDO ============================ -->
+<main id="conteudo" class="relative flex-1 flex items-center justify-center pt-28 pb-16 px-margin-mobile overflow-clip">
+
+    <!-- Anéis centrípetos de fundo -->
+    <div class="anel w-[720px] h-[720px] -right-[360px] -top-[200px] opacity-70" aria-hidden="true"></div>
+    <div class="anel w-[460px] h-[460px] -right-[230px] -top-[70px]" aria-hidden="true"></div>
+    <div class="anel w-[520px] h-[520px] -left-[300px] -bottom-[300px] opacity-60" aria-hidden="true"></div>
+
+    <form id="form-diagnostico" novalidate class="relative z-10 w-full max-w-2xl" autocomplete="on">
+
+        <!-- Honeypot anti-spam: humanos não veem, robôs preenchem -->
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+            <label for="website_url">Não preencha</label>
+            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- ===== 0. Abertura ===== -->
+        <section class="etapa" data-etapa="0">
+            <p class="font-mono text-label-mono text-bronze uppercase mb-6">Diagnóstico gratuito</p>
+            <h1 class="font-display text-display-xl-mobile md:text-display-xl tracking-tighter text-ink mb-6">
+                Onde está o eixo do seu marketing?
+            </h1>
+            <p class="font-body text-body-lg text-ink-muted font-light max-w-xl mb-10">
+                Responda 7 perguntas rápidas. Nós analisamos como sua empresa aparece na busca,
+                nas redes e diante da concorrência — e enviamos um diagnóstico com os próximos passos.
+            </p>
+            <ul class="flex flex-wrap gap-x-8 gap-y-3 mb-12 font-mono text-label-mono text-ink-muted">
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-accent text-xl" aria-hidden="true">schedule</span>~2 minutos</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-accent text-xl" aria-hidden="true">search</span>Busca + redes + concorrência</li>
+                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-accent text-xl" aria-hidden="true">mail</span>Resultado no seu e-mail</li>
+            </ul>
+            <button type="button" data-acao="avancar"
+                    class="inline-flex items-center gap-3 bg-accent text-ink font-semibold text-body-lg py-4 px-10 rounded-full magnetic-btn">
+                Começar diagnóstico
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </button>
+        </section>
+
+        <!-- ===== 1. Empresa ===== -->
+        <section class="etapa" data-etapa="1" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">01 — Sua empresa</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10">Vamos começar pelo básico.</h2>
+            <div class="grid gap-y-10">
+                <div class="field relative" data-campo="empresa">
+                    <input type="text" id="empresa" name="empresa" placeholder=" " autocomplete="organization" maxlength="120" required>
+                    <label for="empresa">Nome da empresa</label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+                <div class="field relative" data-campo="segmento">
+                    <input type="text" id="segmento" name="segmento" placeholder=" " maxlength="120" required>
+                    <label for="segmento">Segmento ou nicho <span class="text-ink-faint">(ex.: clínica odontológica)</span></label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+                <div class="field relative" data-campo="cidade">
+                    <input type="text" id="cidade" name="cidade" placeholder=" " autocomplete="address-level2" maxlength="120" required>
+                    <label for="cidade">Cidade / UF <span class="text-ink-faint">(ou "Brasil todo", "online")</span></label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 2. Presença digital ===== -->
+        <section class="etapa" data-etapa="2" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">02 — Presença digital</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10">Onde sua marca aparece hoje?</h2>
+
+            <fieldset class="mb-10" data-campo="rede_social">
+                <legend class="grupo-titulo font-body text-body-md text-ink-muted mb-4">Rede social principal</legend>
+                <div class="flex flex-wrap gap-3">
+                    <label class="chip"><input type="radio" name="rede_social" value="Instagram"><span>Instagram</span></label>
+                    <label class="chip"><input type="radio" name="rede_social" value="LinkedIn"><span>LinkedIn</span></label>
+                    <label class="chip"><input type="radio" name="rede_social" value="TikTok"><span>TikTok</span></label>
+                    <label class="chip"><input type="radio" name="rede_social" value="Facebook"><span>Facebook</span></label>
+                    <label class="chip"><input type="radio" name="rede_social" value="YouTube"><span>YouTube</span></label>
+                </div>
+                <p class="msg-erro" aria-live="polite"></p>
+            </fieldset>
+
+            <div class="grid gap-y-10">
+                <div class="field relative" data-campo="rede_social_link">
+                    <input type="text" id="rede_social_link" name="rede_social_link" placeholder=" " maxlength="200" required
+                           autocapitalize="off" spellcheck="false">
+                    <label for="rede_social_link">Link ou @ do perfil</label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+                <div class="field relative" data-campo="site">
+                    <input type="text" id="site" name="site" placeholder=" " maxlength="200" inputmode="url"
+                           autocapitalize="off" spellcheck="false">
+                    <label for="site">Site <span class="text-ink-faint">(opcional — deixe em branco se não tiver)</span></label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 3. Concorrência ===== -->
+        <section class="etapa" data-etapa="3" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">03 — Concorrência</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-4">Quem é seu concorrente principal?</h2>
+            <p class="font-body text-body-md text-ink-muted font-light mb-10">Aquele que você mais observa — ou que mais tira clientes de você.</p>
+            <div class="field relative" data-campo="concorrente">
+                <input type="text" id="concorrente" name="concorrente" placeholder=" " maxlength="200" required>
+                <label for="concorrente">Nome, site ou @ do concorrente</label>
+                <p class="msg-erro" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <!-- ===== 4. Objetivo e interesse ===== -->
+        <section class="etapa" data-etapa="4" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">04 — Direção</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10">O que você mais quer agora?</h2>
+
+            <fieldset class="mb-10" data-campo="objetivo">
+                <legend class="grupo-titulo font-body text-body-md text-ink-muted mb-4">Objetivo maior</legend>
+                <div class="flex flex-wrap gap-3">
+                    <label class="chip"><input type="radio" name="objetivo" value="Vender mais"><span>Vender mais</span></label>
+                    <label class="chip"><input type="radio" name="objetivo" value="Ser mais conhecido"><span>Ser mais conhecido</span></label>
+                    <label class="chip"><input type="radio" name="objetivo" value="Lançar produto ou serviço"><span>Lançar produto ou serviço</span></label>
+                    <label class="chip"><input type="radio" name="objetivo" value="Organizar o marketing"><span>Organizar o marketing</span></label>
+                    <label class="chip"><input type="radio" name="objetivo" value="Reposicionar a marca"><span>Reposicionar a marca</span></label>
+                </div>
+                <p class="msg-erro" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset data-campo="interesse">
+                <legend class="grupo-titulo font-body text-body-md text-ink-muted mb-4">Área de maior interesse</legend>
+                <div class="flex flex-wrap gap-3">
+                    <label class="chip"><input type="radio" name="interesse" value="Social media"><span>Social media</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="Anúncios (Ads)"><span>Anúncios (Ads)</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="Conteúdo e UGC"><span>Conteúdo e UGC</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="Branding"><span>Branding</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="Planejamento"><span>Planejamento</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="IA no marketing"><span>IA no marketing</span></label>
+                    <label class="chip"><input type="radio" name="interesse" value="Dados e métricas"><span>Dados e métricas</span></label>
+                </div>
+                <p class="msg-erro" aria-live="polite"></p>
+            </fieldset>
+        </section>
+
+        <!-- ===== 5. Investimento ===== -->
+        <section class="etapa" data-etapa="5" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">05 — Investimento</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10">Onde você já colocou energia?</h2>
+
+            <fieldset class="mb-10" data-campo="ja_investiu">
+                <legend class="grupo-titulo font-body text-body-md text-ink-muted mb-4">Em que já investiu? <span class="text-ink-faint">(marque quantos quiser)</span></legend>
+                <div class="flex flex-wrap gap-3">
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Anúncios pagos"><span>Anúncios pagos</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Social media"><span>Social media</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Site"><span>Site</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Identidade visual"><span>Identidade visual</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Influenciadores"><span>Influenciadores</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Agência"><span>Agência</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Consultoria"><span>Consultoria</span></label>
+                    <label class="chip"><input type="checkbox" name="ja_investiu" value="Nada ainda" data-exclusivo><span>Nada ainda</span></label>
+                </div>
+                <p class="msg-erro" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset data-campo="investimento">
+                <legend class="grupo-titulo font-body text-body-md text-ink-muted mb-4">Quanto investe ou quer investir em marketing por mês?</legend>
+                <div class="flex flex-wrap gap-3">
+                    <label class="chip"><input type="radio" name="investimento" value="Até R$ 2 mil"><span>Até R$ 2 mil</span></label>
+                    <label class="chip"><input type="radio" name="investimento" value="R$ 2 a 5 mil"><span>R$ 2 a 5 mil</span></label>
+                    <label class="chip"><input type="radio" name="investimento" value="R$ 5 a 15 mil"><span>R$ 5 a 15 mil</span></label>
+                    <label class="chip"><input type="radio" name="investimento" value="Acima de R$ 15 mil"><span>Acima de R$ 15 mil</span></label>
+                    <label class="chip"><input type="radio" name="investimento" value="Ainda não sei"><span>Ainda não sei</span></label>
+                </div>
+                <p class="msg-erro" aria-live="polite"></p>
+            </fieldset>
+        </section>
+
+        <!-- ===== 6. Visão ===== -->
+        <section class="etapa" data-etapa="6" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">06 — Visão</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-4">Onde você quer que a empresa esteja daqui a 3 anos?</h2>
+            <p class="font-body text-body-md text-ink-muted font-light mb-10">Pode ser um número, um lugar, um tipo de cliente. Quanto mais concreto, melhor o diagnóstico.</p>
+            <div class="field relative" data-campo="visao_3_anos">
+                <textarea id="visao_3_anos" name="visao_3_anos" placeholder=" " rows="4" maxlength="800" required></textarea>
+                <label for="visao_3_anos">Em 3 anos, queremos…</label>
+                <p class="msg-erro" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <!-- ===== 7. Contato ===== -->
+        <section class="etapa" data-etapa="7" hidden>
+            <p class="font-mono text-label-mono text-bronze mb-4">07 — Para onde enviamos?</p>
+            <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10">Último passo.</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10">
+                <div class="field relative sm:col-span-2" data-campo="nome">
+                    <input type="text" id="nome" name="nome" placeholder=" " autocomplete="name" maxlength="120" required>
+                    <label for="nome">Seu nome</label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+                <div class="field relative" data-campo="email">
+                    <input type="email" id="email" name="email" placeholder=" " autocomplete="email" maxlength="160" required>
+                    <label for="email">E-mail</label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+                <div class="field relative" data-campo="telefone">
+                    <input type="tel" id="telefone" name="telefone" placeholder=" " autocomplete="tel"
+                           inputmode="numeric" maxlength="16" required>
+                    <label for="telefone">WhatsApp com DDD</label>
+                    <p class="msg-erro" aria-live="polite"></p>
+                </div>
+            </div>
+
+            <div class="mt-10" data-campo="consentimento">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="consentimento" name="consentimento" value="sim"
+                           class="mt-1 w-5 h-5 rounded border-hairline text-accent focus:ring-spark">
+                    <span class="grupo-titulo font-body text-sm text-ink-muted leading-relaxed">
+                        Autorizo a Axípeto a usar estes dados para preparar meu diagnóstico — incluindo análise
+                        automatizada com inteligência artificial de informações públicas da minha empresa — e
+                        a entrar em contato comigo. Li a <a href="../privacidade.html" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-ink">Política de Privacidade</a>.
+                    </span>
+                </label>
+                <p class="msg-erro" aria-live="polite"></p>
+            </div>
+        </section>
+
+        <!-- ===== Navegação entre etapas ===== -->
+        <div id="navegacao" class="mt-12 flex items-center justify-between gap-4" hidden>
+            <button type="button" data-acao="voltar"
+                    class="inline-flex items-center gap-2 font-mono text-label-mono text-ink-muted hover:text-ink transition-colors py-3">
+                <span class="material-symbols-outlined text-xl" aria-hidden="true">arrow_back</span>
+                Voltar
+            </button>
+            <div class="flex items-center gap-4">
+                <span class="hidden sm:inline font-mono text-xs text-ink-faint">Enter ↵ para avançar</span>
+                <button type="button" data-acao="avancar" id="btn-avancar"
+                        class="inline-flex items-center gap-3 bg-accent text-ink font-semibold py-3 px-8 rounded-full magnetic-btn">
+                    <span id="btn-avancar-texto">Continuar</span>
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- ===== Enviando ===== -->
+    <section id="enviando" hidden class="etapa relative z-10 text-center max-w-xl" role="status" aria-live="polite">
+        <div class="spinner mx-auto mb-8"></div>
+        <h2 class="font-display text-headline-md text-ink mb-3">Enviando suas respostas…</h2>
+        <p class="font-body text-body-md text-ink-muted font-light">Só um instante.</p>
+    </section>
+
+    <!-- ===== Sucesso ===== -->
+    <section id="sucesso" hidden class="etapa relative z-10 text-center max-w-xl" role="status" aria-live="polite">
+        <img src="../assets/img/brand/mark.png" alt="" aria-hidden="true" width="234" height="234"
+             class="w-16 h-16 mx-auto mb-8 animate-[spin_28s_linear_infinite]">
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-4">
+            Recebemos, <span id="sucesso-nome"></span>.
+        </h2>
+        <p class="font-body text-body-lg text-ink-muted font-light mb-10">
+            Nosso time já está analisando a <strong class="font-semibold text-ink" id="sucesso-empresa"></strong>.
+            Você recebe o diagnóstico no e-mail <strong class="font-semibold text-ink" id="sucesso-email"></strong>
+            em até 24 horas — confira também a caixa de spam.
+        </p>
+        <a id="btn-agendar" href="#" target="_blank" rel="noopener" hidden
+           class="inline-flex items-center gap-3 bg-accent text-ink font-semibold text-body-lg py-4 px-10 rounded-full magnetic-btn mb-6">
+            <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>
+            Já quero agendar uma conversa
+        </a>
+        <p><a href="../" class="font-mono text-label-mono text-ink-muted hover:text-ink underline underline-offset-4">Voltar ao site</a></p>
+    </section>
+
+    <!-- ===== Erro ===== -->
+    <section id="erro" hidden class="etapa relative z-10 text-center max-w-xl" role="alert">
+        <span class="material-symbols-outlined text-accent text-6xl mb-6" aria-hidden="true">wifi_off</span>
+        <h2 class="font-display text-headline-md text-ink mb-3">Não conseguimos enviar agora.</h2>
+        <p class="font-body text-body-md text-ink-muted font-light mb-8">
+            Suas respostas continuam aqui. Tente de novo — ou mande direto pelo WhatsApp, que a gente cuida do resto.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button type="button" id="btn-tentar"
+                    class="inline-flex items-center justify-center gap-2 bg-accent text-ink font-semibold py-3 px-8 rounded-full magnetic-btn">
+                <span class="material-symbols-outlined" aria-hidden="true">refresh</span> Tentar de novo
+            </button>
+            <a id="btn-whatsapp" href="#" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 border border-ink text-ink font-semibold py-3 px-8 rounded-full hover:bg-ink hover:text-surface transition-colors">
+                <span class="material-symbols-outlined" aria-hidden="true">chat</span> Enviar pelo WhatsApp
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer class="w-full px-margin-mobile md:px-margin-desktop py-6 border-t border-hairline flex flex-col sm:flex-row justify-between items-center gap-3 font-mono text-xs text-ink-faint">
+    <span>© <span id="ano">2026</span> Axípeto · CONTAINER PUBLICIDADE LTDA</span>
+    <span class="flex gap-6">
+        <a href="../privacidade.html" class="hover:text-ink transition-colors">Privacidade</a>
+        <a href="../termos.html" class="hover:text-ink transition-colors">Termos</a>
+    </span>
+</footer>
+
+<script>
+/* =========================================================================
+   CONFIGURAÇÃO — ajuste aqui
+   ========================================================================= */
+const CONFIG = {
+    /* URL de PRODUÇÃO do nó Webhook no n8n (método POST).
+       Só responde com o workflow ATIVO. Para testar com o editor do n8n aberto em
+       "Listen for test event", abra a página com ?teste=1 no fim do endereço:
+       aí o envio vai para /webhook-test/ em vez de /webhook/. */
+    WEBHOOK_URL: 'https://axipeto.app.n8n.cloud/webhook/f6ab1951-ad65-47b9-bc89-7544ab512eaf',
+
+    /* Link de agendamento (Google Agenda).
+       Se ficar vazio, o botão "agendar" não aparece na tela de sucesso. */
+    AGENDA_URL: 'https://calendar.app.google/Hqn1kFbBmeCuauAE8',
+
+    /* WhatsApp comercial (mesmo da home) — usado só se o envio falhar */
+    WHATSAPP: '5527998244746',
+
+    /* Por quantos dias a atribuição de UTM vale (last-touch dentro da janela) */
+    UTM_DIAS: 30
+};
+
+/* Modo teste: ?teste=1 envia para a URL de teste do n8n */
+if (new URLSearchParams(location.search).get('teste') === '1') {
+    CONFIG.WEBHOOK_URL = CONFIG.WEBHOOK_URL.replace('/webhook/', '/webhook-test/');
+}
+
+document.getElementById('ano').textContent = new Date().getFullYear();
+
+/* =========================================================================
+   Rastreamento: UTMs e IDs de clique
+   -------------------------------------------------------------------------
+   Lê os parâmetros da URL. Se a pessoa chegou por um anúncio, saiu e voltou
+   depois sem UTM, recupera o último conjunto salvo (válido por UTM_DIAS).
+   Também guarda o primeiro toque, para comparar first × last touch.
+   ========================================================================= */
+const Rastreio = (function () {
+    const CHAVES = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'utm_id',
+                    'fbclid', 'gclid', 'gbraid', 'wbraid', 'ttclid', 'li_fat_id'];
+    const LS_ULTIMO   = 'axp_utm_ultimo';
+    const LS_PRIMEIRO = 'axp_utm_primeiro';
+
+    const ler   = k => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
+    const gravar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
+
+    const params = new URLSearchParams(location.search);
+    const atual = {};
+    CHAVES.forEach(k => { const v = params.get(k); if (v) atual[k] = v.slice(0, 200); });
+
+    const agora = Date.now();
+    const temAtual = Object.keys(atual).length > 0;
+    let ultimo = ler(LS_ULTIMO);
+
+    if (temAtual) {
+        ultimo = { dados: atual, em: agora };
+        gravar(LS_ULTIMO, ultimo);
+        if (!ler(LS_PRIMEIRO)) gravar(LS_PRIMEIRO, ultimo);
+    }
+
+    const valido = ultimo && (agora - ultimo.em) < CONFIG.UTM_DIAS * 864e5;
+    const dados  = temAtual ? atual : (valido ? ultimo.dados : {});
+    const primeiro = ler(LS_PRIMEIRO);
+
+    return {
+        CHAVES,
+        dados,
+        primeiro_toque: primeiro ? (primeiro.dados.utm_source || '') + ' / ' + (primeiro.dados.utm_campaign || '') : '',
+        referrer: document.referrer || '',
+        landing: location.href.slice(0, 500)
+    };
+})();
+
+/* =========================================================================
+   Formulário em etapas
+   ========================================================================= */
+(function () {
+    const form     = document.getElementById('form-diagnostico');
+    const etapas   = [...form.querySelectorAll('[data-etapa]')];
+    const total    = etapas.length - 1;                 // a abertura (0) não conta
+    const nav      = document.getElementById('navegacao');
+    const barra    = document.getElementById('barra');
+    const contador = document.getElementById('contador');
+    const txtAvancar = document.getElementById('btn-avancar-texto');
+    const tel      = document.getElementById('telefone');
+    let atual = 0;
+    let enviando = false;
+
+    /* ---------- Helpers ---------- */
+    const valor  = nome => (form.elements[nome] && form.elements[nome].value || '').trim();
+    const marcados = nome => [...form.querySelectorAll('input[name="' + nome + '"]:checked')].map(i => i.value);
+
+    const pareceUrlOuArroba = v => /^@?[\w.\-]{2,}$/.test(v) || /^(https?:\/\/)?([\w-]+\.)+[a-z]{2,}(\/\S*)?$/i.test(v);
+
+    /* Regras por campo: true = ok, string = mensagem de erro */
+    const regras = {
+        empresa:          () => valor('empresa').length >= 2   || 'Informe o nome da empresa.',
+        segmento:         () => valor('segmento').length >= 2  || 'Conte em que área a empresa atua.',
+        cidade:           () => valor('cidade').length >= 2    || 'Informe a cidade ou região.',
+        rede_social:      () => marcados('rede_social').length  > 0 || 'Escolha a rede principal.',
+        rede_social_link: () => pareceUrlOuArroba(valor('rede_social_link')) || 'Cole o link ou o @ do perfil.',
+        site:             () => !valor('site') || /^(https?:\/\/)?([\w-]+\.)+[a-z]{2,}(\/\S*)?$/i.test(valor('site')) || 'Esse endereço não parece um site. Ex.: suaempresa.com.br',
+        concorrente:      () => valor('concorrente').length >= 2 || 'Informe pelo menos um concorrente.',
+        objetivo:         () => marcados('objetivo').length  > 0 || 'Escolha o objetivo principal.',
+        interesse:        () => marcados('interesse').length > 0 || 'Escolha uma área.',
+        ja_investiu:      () => marcados('ja_investiu').length > 0 || 'Marque ao menos uma opção (ou "Nada ainda").',
+        investimento:     () => marcados('investimento').length > 0 || 'Escolha uma faixa.',
+        visao_3_anos:     () => valor('visao_3_anos').length >= 10 || 'Escreva pelo menos uma frase curta.',
+        nome:             () => valor('nome').length >= 3 || 'Digite seu nome.',
+        email:            () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor('email')) || 'Digite um e-mail válido.',
+        telefone:         () => valor('telefone').replace(/\D/g, '').length >= 10 || 'Digite o DDD + número.',
+        consentimento:    () => document.getElementById('consentimento').checked || 'Precisamos da sua autorização para preparar o diagnóstico.'
+    };
+
+    function validarCampo(box) {
+        const nome = box.dataset.campo;
+        const r = regras[nome] ? regras[nome]() : true;
+        const erro = box.querySelector('.msg-erro');
+        const ok = r === true;
+        box.classList.toggle('invalido', !ok);
+        if (erro) erro.textContent = ok ? '' : r;
+        box.querySelectorAll('input, textarea').forEach(el => {
+            if (el.type === 'radio' || el.type === 'checkbox') return;
+            ok ? el.removeAttribute('aria-invalid') : el.setAttribute('aria-invalid', 'true');
+        });
+        return ok;
+    }
+
+    function validarEtapa(i) {
+        const caixas = [...etapas[i].querySelectorAll('[data-campo]')];
+        const res = caixas.map(validarCampo);
+        const idx = res.indexOf(false);
+        if (idx >= 0) {
+            const foco = caixas[idx].querySelector('input:not([type=hidden]), textarea');
+            if (foco) foco.focus({ preventScroll: true });
+            caixas[idx].scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+            return false;
+        }
+        return true;
+    }
+
+    /* ---------- Exibição ---------- */
+    function mostrar(i) {
+        etapas.forEach((e, n) => { e.hidden = n !== i; });
+        atual = i;
+        nav.hidden = i === 0;
+        barra.style.width = (i / total * 100) + '%';
+        contador.textContent = i === 0 ? '' : String(i).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+        txtAvancar.textContent = i === total ? 'Gerar meu diagnóstico' : 'Continuar';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const primeiro = etapas[i].querySelector('input:not([type=radio]):not([type=checkbox]), textarea');
+        if (primeiro && window.matchMedia('(min-width: 768px)').matches) primeiro.focus({ preventScroll: true });
+
+        evento('diagnostico_etapa', { etapa: i });
+    }
+
+    function avancar() {
+        if (atual > 0 && !validarEtapa(atual)) return;
+        if (atual === total) return enviar();
+        mostrar(atual + 1);
+    }
+    function voltar() { if (atual > 0) mostrar(atual - 1); }
+
+    form.addEventListener('click', e => {
+        const b = e.target.closest('[data-acao]');
+        if (!b) return;
+        b.dataset.acao === 'avancar' ? avancar() : voltar();
+    });
+
+    /* Enter avança (exceto dentro do textarea, onde Shift+Enter quebra linha) */
+    form.addEventListener('keydown', e => {
+        if (e.key !== 'Enter') return;
+        if (e.target.tagName === 'TEXTAREA' && e.shiftKey) return;
+        if (e.target.tagName === 'A') return;
+        e.preventDefault();
+        avancar();
+    });
+    form.addEventListener('submit', e => { e.preventDefault(); avancar(); });
+
+    /* Revalida enquanto corrige */
+    form.addEventListener('input', e => {
+        const box = e.target.closest('[data-campo]');
+        if (box && box.classList.contains('invalido')) validarCampo(box);
+    });
+    form.addEventListener('change', e => {
+        const box = e.target.closest('[data-campo]');
+        if (!box) return;
+
+        /* "Nada ainda" é exclusivo das outras opções */
+        if (e.target.name === 'ja_investiu' && e.target.checked) {
+            const exclusivo = e.target.hasAttribute('data-exclusivo');
+            box.querySelectorAll('input[name="ja_investiu"]').forEach(i => {
+                if (i !== e.target && (exclusivo || i.hasAttribute('data-exclusivo'))) i.checked = false;
+            });
+        }
+        if (box.classList.contains('invalido')) validarCampo(box);
+    });
+
+    /* ---------- Máscara de telefone (igual à home) ---------- */
+    tel.addEventListener('input', () => {
+        const d = tel.value.replace(/\D/g, '').slice(0, 11);
+        let out = d;
+        if (d.length > 2) out = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+        if (d.length > 6) {
+            const corte = d.length > 10 ? 7 : 6;
+            out = '(' + d.slice(0, 2) + ') ' + d.slice(2, corte) + '-' + d.slice(corte);
+        }
+        tel.value = out;
+    });
+
+    /* ---------- Eventos para pixel / GTM (só disparam se estiverem instalados) ---------- */
+    function evento(nome, dados) {
+        try {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(Object.assign({ event: nome }, dados || {}));
+        } catch (e) {}
+    }
+
+    /* ---------- Envio ---------- */
+    function idLead() {
+        try { if (crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+        return 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+    }
+    let leadId = idLead();
+
+    function montarDados() {
+        const d = {
+            lead_id:          leadId,
+            enviado_em:       new Date().toISOString(),
+            empresa:          valor('empresa'),
+            segmento:         valor('segmento'),
+            cidade:           valor('cidade'),
+            rede_social:      marcados('rede_social').join(''),
+            rede_social_link: valor('rede_social_link'),
+            site:             valor('site'),
+            concorrente:      valor('concorrente'),
+            objetivo:         marcados('objetivo').join(''),
+            interesse:        marcados('interesse').join(''),
+            ja_investiu:      marcados('ja_investiu').join(', '),
+            investimento:     marcados('investimento').join(''),
+            visao_3_anos:     valor('visao_3_anos'),
+            nome:             valor('nome'),
+            email:            valor('email').toLowerCase(),
+            telefone:         valor('telefone'),
+            telefone_e164:    '+55' + valor('telefone').replace(/\D/g, ''),
+            consentimento:    'sim',
+            referrer:         Rastreio.referrer,
+            landing_page:     Rastreio.landing,
+            primeiro_toque:   Rastreio.primeiro_toque,
+            user_agent:       navigator.userAgent.slice(0, 300)
+        };
+        Rastreio.CHAVES.forEach(k => { d[k] = Rastreio.dados[k] || ''; });
+        return d;
+    }
+
+    function trocarTela(id) {
+        form.hidden = true;
+        ['enviando', 'sucesso', 'erro'].forEach(s => { document.getElementById(s).hidden = s !== id; });
+        barra.style.width = '100%';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function enviar() {
+        if (enviando) return;
+
+        /* Robô preencheu o honeypot: finge sucesso e não envia nada */
+        if (valor('website_url')) { trocarTela('sucesso'); return; }
+
+        enviando = true;
+        const dados = montarDados();
+        trocarTela('enviando');
+        contador.textContent = '';
+
+        /* form-urlencoded é uma "simple request": o navegador não faz preflight CORS */
+        const corpo = new URLSearchParams(dados);
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 20000);
+
+        try {
+            const resp = await fetch(CONFIG.WEBHOOK_URL, { method: 'POST', body: corpo, signal: ctrl.signal });
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+
+            document.getElementById('sucesso-nome').textContent = dados.nome.split(' ')[0];
+            document.getElementById('sucesso-empresa').textContent = dados.empresa;
+            document.getElementById('sucesso-email').textContent = dados.email;
+            if (CONFIG.AGENDA_URL) {
+                const ag = document.getElementById('btn-agendar');
+                ag.href = CONFIG.AGENDA_URL;
+                ag.hidden = false;
+            }
+            trocarTela('sucesso');
+            evento('diagnostico_enviado', { lead_id: dados.lead_id, utm_source: dados.utm_source, utm_campaign: dados.utm_campaign });
+            if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'Diagnóstico' }, { eventID: dados.lead_id });
+        } catch (err) {
+            const linhas = [
+                'Olá! Tentei enviar o diagnóstico pelo site, mas deu erro. Seguem minhas respostas:',
+                '',
+                '*Empresa:* ' + dados.empresa + ' (' + dados.segmento + ', ' + dados.cidade + ')',
+                '*Rede:* ' + dados.rede_social + ' — ' + dados.rede_social_link,
+                '*Site:* ' + (dados.site || '—'),
+                '*Concorrente:* ' + dados.concorrente,
+                '*Objetivo:* ' + dados.objetivo + ' · *Interesse:* ' + dados.interesse,
+                '*Já investiu em:* ' + dados.ja_investiu + ' · *Investimento:* ' + dados.investimento,
+                '*Em 3 anos:* ' + dados.visao_3_anos,
+                '*Nome:* ' + dados.nome + ' · *E-mail:* ' + dados.email + ' · *WhatsApp:* ' + dados.telefone
+            ];
+            document.getElementById('btn-whatsapp').href =
+                'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(linhas.join('\n'));
+            trocarTela('erro');
+            evento('diagnostico_erro', { motivo: String(err && err.message || err) });
+        } finally {
+            clearTimeout(timer);
+            enviando = false;
+        }
+    }
+
+    document.getElementById('btn-tentar').addEventListener('click', enviar);
+
+    mostrar(0);
+})();
+</script>
+
+</body>
+</html>

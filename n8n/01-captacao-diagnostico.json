@@ -1,0 +1,106 @@
+{
+  "name": "Diagnóstico — 01 Captação",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f6ab1951-ad65-47b9-bc89-7544ab512eaf",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://axipeto.com.br"
+        }
+      },
+      "id": "a1f1c0de-0001-4000-8000-000000000001",
+      "name": "Webhook — formulário",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "f6ab1951-ad65-47b9-bc89-7544ab512eaf"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normaliza o lead vindo do formulário /diagnostico\n// - valida o mínimo (consentimento, e-mail, empresa)\n// - devolve SÓ as colunas da planilha, na mesma grafia dos cabeçalhos\n// - protege contra fórmulas: no Sheets, texto começando com = + - @ vira fórmula/número\n//   (ex.: +5527999998888 viraria número). O apóstrofo força texto e não aparece na célula.\n\nconst COLUNAS = [\n  'lead_id','enviado_em','status','empresa','segmento','cidade','rede_social','rede_social_link',\n  'site','concorrente','objetivo','interesse','ja_investiu','investimento','visao_3_anos',\n  'nome','email','telefone','telefone_e164','consentimento',\n  'utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id',\n  'fbclid','gclid','gbraid','wbraid','ttclid','li_fat_id',\n  'primeiro_toque','referrer','landing_page','user_agent'\n];\n\nconst b = $input.first().json.body || {};\n\nif (b.consentimento !== 'sim') throw new Error('Lead recusado: sem consentimento');\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(String(b.email || '').trim())) throw new Error('Lead recusado: e-mail inválido');\nif (String(b.empresa || '').trim().length < 2) throw new Error('Lead recusado: empresa vazia');\n\nconst limpar = v => {\n  let s = String(v ?? '').trim().slice(0, 1000);\n  if (/^[=+\\-@]/.test(s)) s = \"'\" + s;\n  return s;\n};\n\nconst lead = {};\nfor (const c of COLUNAS) lead[c] = limpar(b[c]);\nlead.status = 'novo';\nif (!lead.lead_id) lead.lead_id = $execution.id;\nif (!lead.enviado_em) lead.enviado_em = new Date().toISOString();\n\nreturn [{ json: lead }];"
+      },
+      "id": "a1f1c0de-0002-4000-8000-000000000002",
+      "name": "Normaliza lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 0]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "a1f1c0de-0003-4000-8000-000000000003",
+      "name": "Salva na planilha",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [480, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true}",
+        "options": {}
+      },
+      "id": "a1f1c0de-0004-4000-8000-000000000004",
+      "name": "Responde ao site",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [720, 0]
+    },
+    {
+      "parameters": {
+        "sendTo": "SEU_EMAIL",
+        "subject": "=Novo lead de diagnóstico: {{ $('Normaliza lead').item.json.empresa }}",
+        "emailType": "text",
+        "message": "=Novo lead de diagnóstico\n\nEmpresa: {{ $('Normaliza lead').item.json.empresa }} ({{ $('Normaliza lead').item.json.segmento }}, {{ $('Normaliza lead').item.json.cidade }})\nRede: {{ $('Normaliza lead').item.json.rede_social }} — {{ $('Normaliza lead').item.json.rede_social_link }}\nSite: {{ $('Normaliza lead').item.json.site }}\nConcorrente: {{ $('Normaliza lead').item.json.concorrente }}\nObjetivo: {{ $('Normaliza lead').item.json.objetivo }} · Interesse: {{ $('Normaliza lead').item.json.interesse }}\nInvestimento: {{ $('Normaliza lead').item.json.investimento }} · Já investiu em: {{ $('Normaliza lead').item.json.ja_investiu }}\nEm 3 anos: {{ $('Normaliza lead').item.json.visao_3_anos }}\n\nContato: {{ $('Normaliza lead').item.json.nome }} · {{ $('Normaliza lead').item.json.telefone }} · {{ $('Normaliza lead').item.json.email }}\nOrigem: {{ $('Normaliza lead').item.json.utm_source }} / {{ $('Normaliza lead').item.json.utm_campaign }} / {{ $('Normaliza lead').item.json.utm_content }}\n\nWhatsApp: https://wa.me/{{ $('Normaliza lead').item.json.telefone_e164.replace(/\\D/g, '') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "a1f1c0de-0005-4000-8000-000000000005",
+      "name": "Me avisa por e-mail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [960, 0]
+    }
+  ],
+  "connections": {
+    "Webhook — formulário": {
+      "main": [[{ "node": "Normaliza lead", "type": "main", "index": 0 }]]
+    },
+    "Normaliza lead": {
+      "main": [[{ "node": "Salva na planilha", "type": "main", "index": 0 }]]
+    },
+    "Salva na planilha": {
+      "main": [[{ "node": "Responde ao site", "type": "main", "index": 0 }]]
+    },
+    "Responde ao site": {
+      "main": [[{ "node": "Me avisa por e-mail", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
