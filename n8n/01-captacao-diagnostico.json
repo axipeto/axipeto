@@ -7,7 +7,7 @@
         "path": "f6ab1951-ad65-47b9-bc89-7544ab512eaf",
         "responseMode": "responseNode",
         "options": {
-          "allowedOrigins": "https://axipeto.com.br"
+          "allowedOrigins": "https://axipeto.com,https://www.axipeto.com"
         }
       },
       "id": "a1f1c0de-0001-4000-8000-000000000001",
