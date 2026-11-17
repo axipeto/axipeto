@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu diagnóstico — Axípeto</title>
+<meta name="description" content="Diagnóstico de marketing preparado pela Axípeto.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FEB700">
+
+<link rel="icon" type="image/png" sizes="512x512" href="../../assets/img/brand/favicon-512.png">
+<link rel="apple-touch-icon" href="../../assets/img/brand/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="../../assets/js/tailwind-config.js"></script>
+<link rel="stylesheet" href="../../assets/css/base.css">
+
+<style>
+    [hidden] { display: none !important; }
+
+    /* Revela ao rolar */
+    .revelar { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .revelar.visivel { opacity: 1; transform: none; }
+    .revelar[data-atraso="1"] { transition-delay: .08s; }
+    .revelar[data-atraso="2"] { transition-delay: .16s; }
+    .revelar[data-atraso="3"] { transition-delay: .24s; }
+
+    /* Anéis centrípetos do topo */
+    .anel { position: absolute; border-radius: 50%; border: 1px dashed rgba(254,183,0,.35); pointer-events: none; }
+    @keyframes girar { to { transform: rotate(360deg); } }
+    .gira { animation: girar 60s linear infinite; }
+    .gira-rev { animation: girar 90s linear infinite reverse; }
+    .ponto { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #FEB700; box-shadow: 0 0 18px rgba(254,183,0,.7); }
+
+    /* Medidor da nota */
+    .medidor-trilho { stroke: #F1ECE2; }
+    .medidor-arco { stroke: url(#grad-nota); stroke-linecap: round; transition: stroke-dashoffset 1.8s cubic-bezier(.2,.8,.2,1); }
+
+    /* Barra da régua */
+    .regua-preenchida { transition: width 1.6s cubic-bezier(.2,.8,.2,1); }
+
+    /* Navegação lateral */
+    .nav-item.ativo { color: #1F1B13; }
+    .nav-item.ativo .nav-traco { width: 2rem; background: #FEB700; }
+    .nav-traco { transition: width .3s ease, background-color .3s ease; }
+
+    /* Cards de recomendação */
+    .rec { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+    .rec:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(31,27,19,.35); border-color: rgba(254,183,0,.6); }
+
+    .esqueleto { background: linear-gradient(90deg, #F3EFE7 25%, #FAF7F1 50%, #F3EFE7 75%); background-size: 200% 100%; animation: brilho 1.4s infinite; border-radius: .5rem; }
+    @keyframes brilho { to { background-position: -200% 0; } }
+</style>
+</head>
+
+<body class="bg-surface text-ink font-body text-body-md overflow-x-hidden selection:bg-accent selection:text-ink">
+
+<!-- ============ TOPO ============ -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-hairline
+            flex justify-between items-center px-margin-mobile md:px-margin-desktop py-stack-md">
+    <a href="../../" aria-label="Axípeto" class="flex items-center">
+        <img src="../../assets/img/brand/wordmark-dark.png" alt="Axípeto" width="982" height="322" class="h-8 w-auto">
+    </a>
+    <a data-agenda href="#" target="_blank" rel="noopener"
+       class="hidden sm:inline-flex items-center gap-2 bg-accent text-ink font-semibold py-2 px-5 rounded-full magnetic-btn">
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">calendar_month</span> Agendar conversa
+    </a>
+</nav>
+<div class="fixed left-0 top-[4.05rem] h-[3px] w-full z-50 bg-transparent" aria-hidden="true">
+    <div id="progresso-leitura" class="h-full bg-accent w-0"></div>
+</div>
+
+<!-- ============ CARREGANDO ============ -->
+<main id="carregando" class="max-w-4xl mx-auto px-margin-mobile pt-36 pb-24" aria-busy="true">
+    <div class="esqueleto h-4 w-48 mb-6"></div>
+    <div class="esqueleto h-14 w-3/4 mb-4"></div>
+    <div class="esqueleto h-5 w-full mb-2"></div>
+    <div class="esqueleto h-5 w-2/3 mb-16"></div>
+    <div class="esqueleto h-64 w-full"></div>
+</main>
+
+<!-- ============ ERRO ============ -->
+<main id="erro" hidden class="min-h-screen flex items-center justify-center px-margin-mobile text-center">
+    <div class="max-w-md">
+        <span class="material-symbols-outlined text-accent text-6xl mb-6" aria-hidden="true">travel_explore</span>
+        <h1 class="font-display text-headline-md text-ink mb-3">Não encontramos este diagnóstico.</h1>
+        <p class="text-ink-muted font-light mb-8">O link pode estar incompleto ou ter expirado. Fale com a gente que reenviamos.</p>
+        <a data-agenda href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-accent text-ink font-semibold py-3 px-8 rounded-full magnetic-btn">Falar com a Axípeto</a>
+    </div>
+</main>
+
+<!-- ============ DIAGNÓSTICO ============ -->
+<main id="conteudo" hidden>
+
+    <!-- Abertura -->
+    <header class="relative overflow-hidden pt-36 pb-20 md:pb-28 px-margin-mobile md:px-margin-desktop">
+        <div class="absolute -right-48 -top-40 w-[640px] h-[640px] gira" aria-hidden="true">
+            <div class="anel inset-0"></div>
+            <div class="ponto" style="top: 50%; left: -5px;"></div>
+        </div>
+        <div class="absolute -right-16 -top-8 w-[380px] h-[380px] gira-rev" aria-hidden="true">
+            <div class="anel inset-0" style="border-color: rgba(0,215,254,.35)"></div>
+            <div class="ponto" style="top: -5px; left: 50%; background:#00D7FE; box-shadow:0 0 18px rgba(0,215,254,.7)"></div>
+        </div>
+
+        <div class="relative max-w-5xl mx-auto">
+            <p class="font-mono text-label-mono text-bronze uppercase mb-6 revelar" data-campo="rotulo"></p>
+            <h1 class="font-display text-display-xl-mobile md:text-display-xl tracking-tighter text-ink mb-8 max-w-3xl revelar" data-atraso="1">
+                Olá, <span data-campo="nome"></span>.
+            </h1>
+            <p class="font-body text-body-lg text-ink-muted font-light max-w-2xl revelar" data-atraso="2" data-campo="resumo"></p>
+            <a href="#nota" class="inline-flex items-center gap-2 mt-10 font-mono text-label-mono text-ink-muted hover:text-ink revelar" data-atraso="3">
+                <span class="material-symbols-outlined animate-bounce" aria-hidden="true">south</span> Ver o diagnóstico
+            </a>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-margin-mobile md:px-margin-desktop lg:grid lg:grid-cols-[200px_1fr] lg:gap-16">
+
+        <!-- Índice lateral -->
+        <aside class="hidden lg:block">
+            <ol class="sticky top-32 space-y-4 font-mono text-label-mono">
+                <li><a href="#nota" class="nav-item flex items-center gap-3 text-ink-faint hover:text-ink"><span class="nav-traco h-px w-4 bg-ink-faint"></span>Nota</a></li>
+                <li><a href="#busca" class="nav-item flex items-center gap-3 text-ink-faint hover:text-ink"><span class="nav-traco h-px w-4 bg-ink-faint"></span>01 Busca</a></li>
+                <li><a href="#rede" class="nav-item flex items-center gap-3 text-ink-faint hover:text-ink"><span class="nav-traco h-px w-4 bg-ink-faint"></span>02 Redes</a></li>
+                <li><a href="#concorrencia" class="nav-item flex items-center gap-3 text-ink-faint hover:text-ink"><span class="nav-traco h-px w-4 bg-ink-faint"></span>03 Concorrência</a></li>
+                <li><a href="#recomendacoes" class="nav-item flex items-center gap-3 text-ink-faint hover:text-ink"><span class="nav-traco h-px w-4 bg-ink-faint"></span>04 Próximos passos</a></li>
+            </ol>
+        </aside>
+
+        <div>
+            <!-- Nota -->
+            <section id="nota" class="py-16 border-t border-hairline">
+                <div class="grid md:grid-cols-[minmax(0,280px)_1fr] gap-10 items-center">
+                    <div class="relative w-64 h-64 mx-auto revelar">
+                        <svg viewBox="0 0 200 200" class="w-full h-full -rotate-90" aria-hidden="true">
+                            <defs>
+                                <linearGradient id="grad-nota" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#FFD56B"/>
+                                    <stop offset="100%" stop-color="#FEB700"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="84" fill="none" stroke-width="14" class="medidor-trilho"/>
+                            <circle id="arco" cx="100" cy="100" r="84" fill="none" stroke-width="14" class="medidor-arco"
+                                    stroke-dasharray="527.79" stroke-dashoffset="527.79"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="font-display text-[72px] leading-none font-extrabold text-ink"><span id="nota-num">0</span><span class="text-2xl text-ink-muted">/10</span></span>
+                            <span class="font-mono text-xs text-ink-muted mt-2 uppercase tracking-widest" id="nota-faixa"></span>
+                        </div>
+                    </div>
+                    <div class="revelar" data-atraso="1">
+                        <p class="font-mono text-label-mono text-bronze uppercase mb-3">Facilidade de ser encontrado</p>
+                        <h2 class="font-display text-headline-lg-mobile md:text-headline-md text-ink mb-4">Quando alguém procura por vocês, o que acontece?</h2>
+                        <p class="text-ink-muted font-light text-body-lg" data-campo="nota_busca_explicacao"></p>
+                        <div class="mt-8">
+                            <div class="flex justify-between font-mono text-[11px] text-ink-faint mb-2"><span>0 · invisível</span><span>5</span><span>10 · referência</span></div>
+                            <div class="h-2 rounded-full bg-[#F1ECE2] overflow-hidden"><div id="regua" class="regua-preenchida h-full w-0 rounded-full bg-gradient-to-r from-accent-soft to-accent"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 01 Busca -->
+            <section id="busca" class="py-16 border-t border-hairline">
+                <p class="font-mono text-label-mono text-bronze uppercase mb-3 revelar">01 · Presença na busca</p>
+                <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10 revelar">O que aparece quando procuram por você</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="rounded-xl bg-surface-alt border border-hairline p-6 revelar">
+                        <p class="flex items-center gap-2 font-semibold text-ink mb-4"><span class="material-symbols-outlined text-accent" aria-hidden="true">check_circle</span>O que encontramos</p>
+                        <ul class="space-y-3" data-lista="busca_encontrado" data-icone="fiber_manual_record"></ul>
+                    </div>
+                    <div class="rounded-xl bg-surface-alt border border-hairline p-6 revelar" data-atraso="1">
+                        <p class="flex items-center gap-2 font-semibold text-ink mb-4"><span class="material-symbols-outlined text-bronze" aria-hidden="true">trending_up</span>O que pode melhorar</p>
+                        <ul class="space-y-3" data-lista="busca_melhorias" data-icone="arrow_forward"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 02 Rede -->
+            <section id="rede" class="py-16 border-t border-hairline">
+                <p class="font-mono text-label-mono text-bronze uppercase mb-3 revelar">02 · <span data-campo="rede_social"></span></p>
+                <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-6 revelar">Sua vitrine nas redes</h2>
+                <div id="aviso-rede" hidden class="flex gap-3 items-start rounded-xl border border-dashed border-accent/60 bg-accent/5 p-5 mb-8 revelar">
+                    <span class="material-symbols-outlined text-accent" aria-hidden="true">visibility_off</span>
+                    <p class="text-sm text-ink-muted leading-relaxed">Não conseguimos abrir o perfil de forma automática. O que está abaixo vem do que aparece publicamente nas buscas — na conversa, olhamos o perfil juntos.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="rounded-xl bg-surface-alt border border-hairline p-6 revelar">
+                        <p class="flex items-center gap-2 font-semibold text-ink mb-4"><span class="material-symbols-outlined text-accent" aria-hidden="true">visibility</span>Observações</p>
+                        <ul class="space-y-3" data-lista="rede_observacoes" data-icone="fiber_manual_record"></ul>
+                    </div>
+                    <div class="rounded-xl bg-surface-alt border border-hairline p-6 revelar" data-atraso="1">
+                        <p class="flex items-center gap-2 font-semibold text-ink mb-4"><span class="material-symbols-outlined text-bronze" aria-hidden="true">auto_awesome</span>O que pode melhorar</p>
+                        <ul class="space-y-3" data-lista="rede_melhorias" data-icone="arrow_forward"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 03 Concorrência -->
+            <section id="concorrencia" class="py-16 border-t border-hairline">
+                <p class="font-mono text-label-mono text-bronze uppercase mb-3 revelar">03 · Concorrência</p>
+                <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10 revelar">Como você se posiciona</h2>
+                <div id="concorrentes" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"></div>
+                <div class="relative rounded-xl bg-ink text-surface p-6 md:p-8 overflow-hidden revelar">
+                    <div class="anel w-64 h-64 -right-20 -top-20 opacity-60" aria-hidden="true"></div>
+                    <p class="font-mono text-label-mono text-accent uppercase mb-3 relative">Leitura do posicionamento</p>
+                    <p class="font-display text-xl md:text-2xl leading-snug relative" data-campo="posicionamento"></p>
+                </div>
+            </section>
+
+            <!-- 04 Recomendações -->
+            <section id="recomendacoes" class="py-16 border-t border-hairline">
+                <p class="font-mono text-label-mono text-bronze uppercase mb-3 revelar">04 · Próximos passos</p>
+                <h2 class="font-display text-headline-lg-mobile md:text-headline-lg text-ink mb-10 revelar">O que recomendamos</h2>
+                <div id="recs" class="grid md:grid-cols-3 gap-5"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="relative overflow-hidden bg-ink text-surface mt-8 py-24 px-margin-mobile md:px-margin-desktop">
+        <div class="absolute -left-40 -bottom-40 w-[520px] h-[520px] gira" aria-hidden="true"><div class="anel inset-0"></div><div class="ponto" style="top:50%;right:-5px"></div></div>
+        <div class="relative max-w-3xl mx-auto text-center">
+            <img src="../../assets/img/brand/mark.png" alt="" aria-hidden="true" width="234" height="234" class="w-14 h-14 mx-auto mb-8 animate-[spin_28s_linear_infinite]">
+            <h2 class="font-display text-display-xl-mobile md:text-[56px] md:leading-tight tracking-tighter mb-6 revelar">Vamos transformar isso em plano?</h2>
+            <p class="text-body-lg text-[#CFC8BC] font-light mb-10 revelar" data-atraso="1" data-campo="fechamento"></p>
+            <a data-agenda href="#" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-3 bg-accent text-ink font-semibold text-body-lg py-4 px-10 rounded-full magnetic-btn revelar" data-atraso="2">
+                <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span> Agendar uma conversa
+            </a>
+        </div>
+    </section>
+
+    <footer class="px-margin-mobile md:px-margin-desktop py-8 border-t border-hairline flex flex-col md:flex-row gap-4 justify-between items-center text-center md:text-left">
+        <p class="text-xs text-ink-muted max-w-xl leading-relaxed">Diagnóstico preliminar feito a partir de informações públicas, com apoio de inteligência artificial e revisão da equipe Axípeto. <span data-campo="data"></span></p>
+        <a href="../../" class="font-mono text-label-mono text-ink-muted hover:text-ink">axipeto.com</a>
+    </footer>
+</main>
+
+<script>
+/* =========================================================================
+   CONFIGURAÇÃO
+   ========================================================================= */
+const CONFIG = {
+    /* Webhook do n8n que devolve o diagnóstico em JSON: GET ?id=<lead_id> */
+    API_URL: 'https://axipeto.app.n8n.cloud/webhook/diagnostico-resultado',
+    AGENDA_URL: 'https://calendar.app.google/Hqn1kFbBmeCuauAE8'
+};
+
+/* Exemplo para ver a página sem dados reais: abra com ?demo=1 */
+const DEMO = {
+    empresa: 'Padaria Sol (exemplo)', nome: 'Maria', rede_social: 'Instagram', gerado_em: new Date().toISOString(),
+    resumo: 'Sua padaria aparece bem quando procuram pelo nome, mas o Instagram ainda não trabalha a favor das vendas.',
+    nota_busca: 6,
+    nota_busca_explicacao: 'O site aparece entre os primeiros resultados, mas falta uma ficha com endereço e horário, e há poucas avaliações.',
+    busca_encontrado: ['O site oficial aparece entre os primeiros resultados', 'O perfil do Instagram aparece na busca pelo nome', 'Há algumas menções em sites de delivery'],
+    busca_melhorias: ['Criar uma ficha com endereço, horário e telefone', 'Pedir avaliações a clientes frequentes'],
+    rede_acessada: false,
+    rede_observacoes: ['O perfil aparece nos resultados de busca com nome e bio', 'Não foi possível verificar a frequência de posts'],
+    rede_melhorias: ['Definir um ritmo fixo de publicações', 'Usar a bio para levar ao pedido ou ao WhatsApp'],
+    concorrentes: [{ nome: 'Concorrente A', destaque: 'Tem ficha com endereço e muitas avaliações' }, { nome: 'Concorrente B', destaque: 'Site com cardápio e pedido online' }],
+    posicionamento: 'Você está bem no nome, mas atrás dos concorrentes em avaliações e facilidade de pedir.',
+    recomendacoes: [
+        { titulo: 'Ficha completa na busca', descricao: 'Endereço, horário, fotos e um pedido de avaliação no balcão.' },
+        { titulo: 'Ritmo no Instagram', descricao: '3 publicações por semana mostrando produtos do dia e bastidores.' },
+        { titulo: 'Pedido em um clique', descricao: 'Link direto para WhatsApp ou delivery na bio e no site.' }
+    ],
+    fechamento: 'Se fizer sentido, a gente conversa 30 minutos e transforma isso num plano para as 3 lojas.'
+};
+
+(function () {
+    const qs = new URLSearchParams(location.search);
+    document.querySelectorAll('[data-agenda]').forEach(a => { a.href = CONFIG.AGENDA_URL; });
+
+    const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+    const lista = (v) => Array.isArray(v) ? v.filter(Boolean) : [];
+
+    function faixa(n) {
+        if (n <= 3) return 'Difícil de achar';
+        if (n <= 6) return 'Em construção';
+        if (n <= 8) return 'Bem encontrado';
+        return 'Referência';
+    }
+
+    function render(d) {
+        const set = (campo, valor) => document.querySelectorAll('[data-campo="' + campo + '"]').forEach(n => { n.textContent = valor || ''; });
+        set('rotulo', 'Diagnóstico de marketing · ' + (d.empresa || ''));
+        set('nome', (d.nome || '').split(' ')[0] || 'tudo bem');
+        set('resumo', d.resumo);
+        set('nota_busca_explicacao', d.nota_busca_explicacao);
+        set('rede_social', d.rede_social || 'Redes sociais');
+        set('posicionamento', d.posicionamento);
+        set('fechamento', d.fechamento);
+        if (d.gerado_em) {
+            const dt = new Date(d.gerado_em);
+            if (!isNaN(dt)) set('data', 'Gerado em ' + dt.toLocaleDateString('pt-BR') + '.');
+        }
+        document.title = 'Diagnóstico — ' + (d.empresa || 'Axípeto');
+
+        document.querySelectorAll('[data-lista]').forEach(ul => {
+            const icone = ul.dataset.icone;
+            lista(d[ul.dataset.lista]).forEach(item => {
+                const li = el('li', 'flex gap-3 items-start text-ink leading-relaxed');
+                const ic = el('span', 'material-symbols-outlined text-base mt-0.5 ' + (icone === 'arrow_forward' ? 'text-bronze' : 'text-accent'), icone);
+                ic.setAttribute('aria-hidden', 'true');
+                li.append(ic, el('span', '', item));
+                ul.append(li);
+            });
+        });
+
+        document.getElementById('aviso-rede').hidden = !!d.rede_acessada;
+
+        const conc = document.getElementById('concorrentes');
+        lista(d.concorrentes).forEach((c, i) => {
+            const card = el('div', 'rounded-xl border border-hairline bg-white p-5 revelar');
+            card.dataset.atraso = String(i % 3);
+            const topo = el('div', 'flex items-center gap-3 mb-2');
+            const ini = el('span', 'w-9 h-9 rounded-full bg-surface-alt border border-hairline flex items-center justify-center font-display font-bold text-ink', (c.nome || '?').trim().charAt(0).toUpperCase());
+            topo.append(ini, el('span', 'font-semibold text-ink', c.nome));
+            card.append(topo, el('p', 'text-sm text-ink-muted leading-relaxed', c.destaque));
+            conc.append(card);
+        });
+        if (!lista(d.concorrentes).length) conc.hidden = true;
+
+        const recs = document.getElementById('recs');
+        lista(d.recomendacoes).slice(0, 3).forEach((r, i) => {
+            const card = el('article', 'rec relative rounded-xl border border-hairline bg-white p-6 overflow-hidden revelar');
+            card.dataset.atraso = String(i);
+            card.append(
+                el('span', 'block font-display text-5xl font-extrabold text-accent/90 mb-6', '0' + (i + 1)),
+                el('h3', 'font-display text-xl font-bold text-ink mb-2', r.titulo),
+                el('p', 'text-ink-muted leading-relaxed', r.descricao)
+            );
+            recs.append(card);
+        });
+
+        document.getElementById('carregando').hidden = true;
+        document.getElementById('conteudo').hidden = false;
+
+        animarNota(Math.max(0, Math.min(10, Math.round(Number(d.nota_busca) || 0))));
+        observar();
+    }
+
+    function animarNota(n) {
+        const arco = document.getElementById('arco');
+        const num = document.getElementById('nota-num');
+        const regua = document.getElementById('regua');
+        document.getElementById('nota-faixa').textContent = faixa(n);
+        const total = 527.79;
+        let feito = false;
+        const iniciar = () => {
+            if (feito) return; feito = true;
+            arco.style.strokeDashoffset = String(total * (1 - n / 10));
+            regua.style.width = (n * 10) + '%';
+            const t0 = performance.now(), dur = 1600;
+            const passo = (t) => {
+                const p = Math.min(1, (t - t0) / dur);
+                num.textContent = String(Math.round(n * (1 - Math.pow(1 - p, 3))));
+                if (p < 1) requestAnimationFrame(passo);
+            };
+            requestAnimationFrame(passo);
+        };
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+            iniciar(); return;
+        }
+        new IntersectionObserver((ents, obs) => {
+            if (ents.some(e => e.isIntersecting)) { iniciar(); obs.disconnect(); }
+        }, { threshold: .4 }).observe(document.getElementById('nota'));
+    }
+
+    function observar() {
+        const itens = document.querySelectorAll('.revelar');
+        if (!('IntersectionObserver' in window)) { itens.forEach(i => i.classList.add('visivel')); return; }
+        const io = new IntersectionObserver((ents) => ents.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visivel'); io.unobserve(e.target); }
+        }), { threshold: .15 });
+        itens.forEach(i => io.observe(i));
+
+        /* Índice lateral acompanha a seção visível */
+        const links = document.querySelectorAll('.nav-item');
+        const secoes = ['nota', 'busca', 'rede', 'concorrencia', 'recomendacoes'].map(id => document.getElementById(id));
+        const io2 = new IntersectionObserver((ents) => ents.forEach(e => {
+            if (!e.isIntersecting) return;
+            links.forEach(l => l.classList.toggle('ativo', l.getAttribute('href') === '#' + e.target.id));
+        }), { rootMargin: '-45% 0px -50% 0px' });
+        secoes.forEach(s => io2.observe(s));
+    }
+
+    /* Barra de leitura */
+    const barra = document.getElementById('progresso-leitura');
+    addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+        barra.style.width = (p * 100) + '%';
+    }, { passive: true });
+
+    function erro() {
+        document.getElementById('carregando').hidden = true;
+        document.getElementById('erro').hidden = false;
+    }
+
+    if (qs.get('demo') === '1') { render(DEMO); return; }
+
+    const id = qs.get('id');
+    if (!id || !/^[A-Za-z0-9-]{1,80}$/.test(id)) { erro(); return; }
+
+    const previa = qs.get('p');
+    fetch(CONFIG.API_URL + '?id=' + encodeURIComponent(id) + (previa ? '&p=' + encodeURIComponent(previa) : ''))
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(d => (d && d.resumo) ? render(d) : erro())
+        .catch(erro);
+})();
+</script>
+</body>
+</html>
